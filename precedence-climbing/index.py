@@ -396,5 +396,4 @@ class EndToEndTests(unittest.TestCase):
 
 
 if __name__ == "__main__":
-    # unittest.main()
-    print(parse(tokenize("1+2+3")))
+    unittest.main()
