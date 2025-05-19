@@ -206,29 +206,40 @@ class JitPage:
         return thunk()
 
 # ------------------------------------------------------------------------------
+import unittest
+
+class SmokeTests(unittest.TestCase):
+    def setUp(self):
+        self.j = JitPage()
+
+    def test_expressions(self):
+        tests = [
+        (0,0),
+        (['negate',1],-1),
+        (['*',3,['negate',2]],-6),
+        (['^',3,2],9),
+        (['+',1,['^',3,2]],10),
+        (['/',['+',1,['-',['-',['*',4,10],
+         ['^',6,['+',1,1]]],['negate',1]]],2],3),
+        (['+',['*',['<',1,1],1],['*',['<=',1,1],1]],1),
+        (['+',['*',['<',1,4],1],['*',['<=',4,1],4]],1),
+        (['+',['*',['<',1,4],4],['*',['<=',4,1],1]],4),
+        (['+',['*',['<',4,4],4],['*',['<=',4,4],4]],4),
+        (['add',1,['mul',2,3]],7),
+        ]
+        for xpr,res in tests:
+            with self.subTest(xpr=xpr,res=res):
+                self.assertEqual(self.j.eval(xpr),res)
+
+    def test_string_literal(self):
+        with self.assertRaisesRegex(JitError, "unimplemented literal"):
+            self.j.eval(['*',2,'dozen'])
+
+    def test_too_complex(self):
+        def sumtree(d):
+            return 1 if d==0 else ['+',sumtree(d-1),sumtree(d-1)]
+        with self.assertRaisesRegex(JitError, "too complex"):
+            self.j.eval(sumtree(9))
 
 if __name__ == "__main__":
-    j = JitPage()
-
-    tests = [
-    (0,0),
-    (['negate',1],-1),
-    (['*',3,['negate',2]],-6),
-    (['^',3,2],9),
-    (['+',1,['^',3,2]],10),
-    (['/',['+',1,['-',['-',['*',4,10],['^',6,['+',1,1]]],['negate',1]]],2],3),
-    (['+',['*',['<',1,1],1],['*',['<=',1,1],1]],1),
-    (['+',['*',['<',1,4],1],['*',['<=',4,1],4]],1),
-    (['+',['*',['<',1,4],4],['*',['<=',4,1],1]],4),
-    (['+',['*',['<',4,4],4],['*',['<=',4,4],4]],4),
-    (['add',1,['mul',2,3]],7),
-    ]
-
-    for xpr,res in tests:
-        print(j.eval(xpr) == res)
- 
-    try:
-        j.eval("1+"*500+"1")
-        raise Exception
-    except JitError:
-        print(True)
+    unittest.main()

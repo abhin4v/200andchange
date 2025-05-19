@@ -803,32 +803,43 @@ returning a function pointer to the start of the assembly.</p>
               
             </div>
             
-            <div class="content"><div class='highlight'><pre>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> unittest
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">SmokeTests</span>(unittest.TestCase):
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">setUp</span>(<span class="hljs-params">self</span>):
+        self.j = JitPage()
+
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">test_expressions</span>(<span class="hljs-params">self</span>):
+        tests = [
+        (<span class="hljs-number">0</span>,<span class="hljs-number">0</span>),
+        ([<span class="hljs-string">&#x27;negate&#x27;</span>,<span class="hljs-number">1</span>],-<span class="hljs-number">1</span>),
+        ([<span class="hljs-string">&#x27;*&#x27;</span>,<span class="hljs-number">3</span>,[<span class="hljs-string">&#x27;negate&#x27;</span>,<span class="hljs-number">2</span>]],-<span class="hljs-number">6</span>),
+        ([<span class="hljs-string">&#x27;^&#x27;</span>,<span class="hljs-number">3</span>,<span class="hljs-number">2</span>],<span class="hljs-number">9</span>),
+        ([<span class="hljs-string">&#x27;+&#x27;</span>,<span class="hljs-number">1</span>,[<span class="hljs-string">&#x27;^&#x27;</span>,<span class="hljs-number">3</span>,<span class="hljs-number">2</span>]],<span class="hljs-number">10</span>),
+        ([<span class="hljs-string">&#x27;/&#x27;</span>,[<span class="hljs-string">&#x27;+&#x27;</span>,<span class="hljs-number">1</span>,[<span class="hljs-string">&#x27;-&#x27;</span>,[<span class="hljs-string">&#x27;-&#x27;</span>,[<span class="hljs-string">&#x27;*&#x27;</span>,<span class="hljs-number">4</span>,<span class="hljs-number">10</span>],
+         [<span class="hljs-string">&#x27;^&#x27;</span>,<span class="hljs-number">6</span>,[<span class="hljs-string">&#x27;+&#x27;</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>]]],[<span class="hljs-string">&#x27;negate&#x27;</span>,<span class="hljs-number">1</span>]]],<span class="hljs-number">2</span>],<span class="hljs-number">3</span>),
+        ([<span class="hljs-string">&#x27;+&#x27;</span>,[<span class="hljs-string">&#x27;*&#x27;</span>,[<span class="hljs-string">&#x27;&lt;&#x27;</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>],<span class="hljs-number">1</span>],[<span class="hljs-string">&#x27;*&#x27;</span>,[<span class="hljs-string">&#x27;&lt;=&#x27;</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>],<span class="hljs-number">1</span>]],<span class="hljs-number">1</span>),
+        ([<span class="hljs-string">&#x27;+&#x27;</span>,[<span class="hljs-string">&#x27;*&#x27;</span>,[<span class="hljs-string">&#x27;&lt;&#x27;</span>,<span class="hljs-number">1</span>,<span class="hljs-number">4</span>],<span class="hljs-number">1</span>],[<span class="hljs-string">&#x27;*&#x27;</span>,[<span class="hljs-string">&#x27;&lt;=&#x27;</span>,<span class="hljs-number">4</span>,<span class="hljs-number">1</span>],<span class="hljs-number">4</span>]],<span class="hljs-number">1</span>),
+        ([<span class="hljs-string">&#x27;+&#x27;</span>,[<span class="hljs-string">&#x27;*&#x27;</span>,[<span class="hljs-string">&#x27;&lt;&#x27;</span>,<span class="hljs-number">1</span>,<span class="hljs-number">4</span>],<span class="hljs-number">4</span>],[<span class="hljs-string">&#x27;*&#x27;</span>,[<span class="hljs-string">&#x27;&lt;=&#x27;</span>,<span class="hljs-number">4</span>,<span class="hljs-number">1</span>],<span class="hljs-number">1</span>]],<span class="hljs-number">4</span>),
+        ([<span class="hljs-string">&#x27;+&#x27;</span>,[<span class="hljs-string">&#x27;*&#x27;</span>,[<span class="hljs-string">&#x27;&lt;&#x27;</span>,<span class="hljs-number">4</span>,<span class="hljs-number">4</span>],<span class="hljs-number">4</span>],[<span class="hljs-string">&#x27;*&#x27;</span>,[<span class="hljs-string">&#x27;&lt;=&#x27;</span>,<span class="hljs-number">4</span>,<span class="hljs-number">4</span>],<span class="hljs-number">4</span>]],<span class="hljs-number">4</span>),
+        ([<span class="hljs-string">&#x27;add&#x27;</span>,<span class="hljs-number">1</span>,[<span class="hljs-string">&#x27;mul&#x27;</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>]],<span class="hljs-number">7</span>),
+        ]
+        <span class="hljs-keyword">for</span> xpr,res <span class="hljs-keyword">in</span> tests:
+            <span class="hljs-keyword">with</span> self.subTest(xpr=xpr,res=res):
+                self.assertEqual(self.j.<span class="hljs-built_in">eval</span>(xpr),res)
+
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">test_string_literal</span>(<span class="hljs-params">self</span>):
+        <span class="hljs-keyword">with</span> self.assertRaisesRegex(JitError, <span class="hljs-string">&quot;unimplemented literal&quot;</span>):
+            self.j.<span class="hljs-built_in">eval</span>([<span class="hljs-string">&#x27;*&#x27;</span>,<span class="hljs-number">2</span>,<span class="hljs-string">&#x27;dozen&#x27;</span>])
+
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">test_too_complex</span>(<span class="hljs-params">self</span>):
+        <span class="hljs-keyword">def</span> <span class="hljs-title function_">sumtree</span>(<span class="hljs-params">d</span>):
+            <span class="hljs-keyword">return</span> <span class="hljs-number">1</span> <span class="hljs-keyword">if</span> d==<span class="hljs-number">0</span> <span class="hljs-keyword">else</span> [<span class="hljs-string">&#x27;+&#x27;</span>,sumtree(d-<span class="hljs-number">1</span>),sumtree(d-<span class="hljs-number">1</span>)]
+        <span class="hljs-keyword">with</span> self.assertRaisesRegex(JitError, <span class="hljs-string">&quot;too complex&quot;</span>):
+            self.j.<span class="hljs-built_in">eval</span>(sumtree(<span class="hljs-number">9</span>))
+
 <span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:
-    j = JitPage()
-
-    tests = [
-    (<span class="hljs-number">0</span>,<span class="hljs-number">0</span>),
-    ([<span class="hljs-string">&#x27;negate&#x27;</span>,<span class="hljs-number">1</span>],-<span class="hljs-number">1</span>),
-    ([<span class="hljs-string">&#x27;*&#x27;</span>,<span class="hljs-number">3</span>,[<span class="hljs-string">&#x27;negate&#x27;</span>,<span class="hljs-number">2</span>]],-<span class="hljs-number">6</span>),
-    ([<span class="hljs-string">&#x27;^&#x27;</span>,<span class="hljs-number">3</span>,<span class="hljs-number">2</span>],<span class="hljs-number">9</span>),
-    ([<span class="hljs-string">&#x27;+&#x27;</span>,<span class="hljs-number">1</span>,[<span class="hljs-string">&#x27;^&#x27;</span>,<span class="hljs-number">3</span>,<span class="hljs-number">2</span>]],<span class="hljs-number">10</span>),
-    ([<span class="hljs-string">&#x27;/&#x27;</span>,[<span class="hljs-string">&#x27;+&#x27;</span>,<span class="hljs-number">1</span>,[<span class="hljs-string">&#x27;-&#x27;</span>,[<span class="hljs-string">&#x27;-&#x27;</span>,[<span class="hljs-string">&#x27;*&#x27;</span>,<span class="hljs-number">4</span>,<span class="hljs-number">10</span>],[<span class="hljs-string">&#x27;^&#x27;</span>,<span class="hljs-number">6</span>,[<span class="hljs-string">&#x27;+&#x27;</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>]]],[<span class="hljs-string">&#x27;negate&#x27;</span>,<span class="hljs-number">1</span>]]],<span class="hljs-number">2</span>],<span class="hljs-number">3</span>),
-    ([<span class="hljs-string">&#x27;+&#x27;</span>,[<span class="hljs-string">&#x27;*&#x27;</span>,[<span class="hljs-string">&#x27;&lt;&#x27;</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>],<span class="hljs-number">1</span>],[<span class="hljs-string">&#x27;*&#x27;</span>,[<span class="hljs-string">&#x27;&lt;=&#x27;</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>],<span class="hljs-number">1</span>]],<span class="hljs-number">1</span>),
-    ([<span class="hljs-string">&#x27;+&#x27;</span>,[<span class="hljs-string">&#x27;*&#x27;</span>,[<span class="hljs-string">&#x27;&lt;&#x27;</span>,<span class="hljs-number">1</span>,<span class="hljs-number">4</span>],<span class="hljs-number">1</span>],[<span class="hljs-string">&#x27;*&#x27;</span>,[<span class="hljs-string">&#x27;&lt;=&#x27;</span>,<span class="hljs-number">4</span>,<span class="hljs-number">1</span>],<span class="hljs-number">4</span>]],<span class="hljs-number">1</span>),
-    ([<span class="hljs-string">&#x27;+&#x27;</span>,[<span class="hljs-string">&#x27;*&#x27;</span>,[<span class="hljs-string">&#x27;&lt;&#x27;</span>,<span class="hljs-number">1</span>,<span class="hljs-number">4</span>],<span class="hljs-number">4</span>],[<span class="hljs-string">&#x27;*&#x27;</span>,[<span class="hljs-string">&#x27;&lt;=&#x27;</span>,<span class="hljs-number">4</span>,<span class="hljs-number">1</span>],<span class="hljs-number">1</span>]],<span class="hljs-number">4</span>),
-    ([<span class="hljs-string">&#x27;+&#x27;</span>,[<span class="hljs-string">&#x27;*&#x27;</span>,[<span class="hljs-string">&#x27;&lt;&#x27;</span>,<span class="hljs-number">4</span>,<span class="hljs-number">4</span>],<span class="hljs-number">4</span>],[<span class="hljs-string">&#x27;*&#x27;</span>,[<span class="hljs-string">&#x27;&lt;=&#x27;</span>,<span class="hljs-number">4</span>,<span class="hljs-number">4</span>],<span class="hljs-number">4</span>]],<span class="hljs-number">4</span>),
-    ([<span class="hljs-string">&#x27;add&#x27;</span>,<span class="hljs-number">1</span>,[<span class="hljs-string">&#x27;mul&#x27;</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>]],<span class="hljs-number">7</span>),
-    ]
-
-    <span class="hljs-keyword">for</span> xpr,res <span class="hljs-keyword">in</span> tests:
-        <span class="hljs-built_in">print</span>(j.<span class="hljs-built_in">eval</span>(xpr) == res)
- 
-    <span class="hljs-keyword">try</span>:
-        j.<span class="hljs-built_in">eval</span>(<span class="hljs-string">&quot;1+&quot;</span>*<span class="hljs-number">500</span>+<span class="hljs-string">&quot;1&quot;</span>)
-        <span class="hljs-keyword">raise</span> Exception
-    <span class="hljs-keyword">except</span> JitError:
-        <span class="hljs-built_in">print</span>(<span class="hljs-literal">True</span>)</pre></div></div>
+    unittest.main()</pre></div></div>
             
         </li>
         
