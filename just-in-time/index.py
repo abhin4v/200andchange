@@ -41,11 +41,13 @@ class Asm:
     def db(self, v: List[int]):
         self.ops.extend(v)
 
-    # `dd` defines a (little endian) dword
+    # `dd` defines a dword: 4 little-endian bytes.
+    # `dd(0x12345678)` => `db([0x78,0x56,0x23,0x12])`
     def dd(self, v: int):
         self.db([(v>>8*i)&0xff for i in range(4)])
 
-    # `dq` defines a (little endian) quadword
+    # `dq` defines a quadword: 8 bytes.
+    # `dq(0x12345678)` => `db([0x78,0x56,0x23,0x12,0x0,0x0,0x0,0x0])`
     def dq(self, v: int):
         self.db([(v>>8*i)&0xff for i in range(8)])
 
@@ -58,25 +60,33 @@ class Asm:
 # Assemble 0-address threaded code blocks for the various operations.
 # (See also some of [dmr's threaded code](http://squoze.net/NB/nbilib.s))
 def add(a):
+    # *popq %rcx; popq %rax; addq %rcx,%rax; pushq %rax*
     a.db([0x59,0x58,0x48,0x01,0xc8,0x50])
 
 def sub(a):
+    # *popq %rcx; popq %rax; subq %rcx,%rax; pushq %rax*
     a.db([0x59,0x58,0x48,0x29,0xc8,0x50])
 
 def mul(a):
+    # *popq %rcx; popq %rax; imulq %rcx; pushq %rax*
     a.db([0x59,0x58,0x48,0xf7,0xe9,0x50])
 
 def div(a):
+    # *popq %rcx; popq %rax; cqto; idivq %rcx; pushq %rax*
     a.db([0x59,0x58,0x48,0x99,0x48,0xf7,0xf9,0x50])
 
 def leq(a):
+    # *popq %rcx; popq %rax; incq %rcx; subq %rcx,%rax; cqto*
     a.db([0x59,0x58,0x48,0xff,0xc1,0x48,0x29,0xc8,0x48,0x99])
+    # *andq $1, %rdx; pushq %rdx*
     a.db([0x48,0x83,0xe2,0x01,0x52])
 
 def lt(a):
+    # *popq %rcx; popq %rax; subq %rcx,%rax; cqto; andq $1, %rdx; pushq %rdx*
     a.db([0x59,0x58,0x48,0x29,0xc8,0x48,0x99,0x48,0x83,0xe2,0x01,0x52])
 
 def neg(a):
+    # *popq %rcx; xorq %rax,%rax; subq %rcx,%rax; pushq %rax*
     a.db([0x59,0x48,0x31,0xc0,0x48,0x29,0xc8,0x50])
 
 # to handle `^` we call back into python code
@@ -85,13 +95,17 @@ def py_exp(a,b):
     return a**b if 0<=b else 0 # not quite right
 
 def exp(a):
+    # *popq %rsi; popq %rdi; pushq %rbx; movq %rsp,%rbx; andq $8,%rbx; subq %rbx,%rsp*
     a.db([0x5e,0x5f,0x53,0x48,0x89,0xe3,0x48,0x83,0xe3,0x08,0x48,0x29,0xdc])
+    # *callq* `py_exp`
     a.db([0xe8]); a.reloc(cast(py_exp,c_void_p).value)
+    # *addq %rbx,%rsp; popq %rbx; pushq %rax*
     a.db([0x48,0x01,0xdc,0x5b,0x50])
 
 # for simplicity `lit`eral data is always coded as a quad immediate
 def lit(a,v):
-    a.db([0x48,0xb8]); a.dq(v)
+    # *movabsq* `v`*,%rax; pushq %rax*
+    a.db([0x48,0xb8]); a.dq(v);
     a.db([0x50])
 
 # given a concrete syntax tree, `codegen` assembles the threaded

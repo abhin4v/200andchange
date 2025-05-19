@@ -182,7 +182,8 @@ in lieu of a more powerful assembler</p>
               <div class="sswrap ">
                 <a class="ss" href="#section-8">&#x00a7;</a>
               </div>
-              <p><code>dd</code> defines a (little endian) dword</p>
+              <p><code>dd</code> defines a dword: 4 little-endian bytes.
+<code>dd(0x12345678)</code> =&gt; <code>db([0x78,0x56,0x23,0x12])</code></p>
 
             </div>
             
@@ -198,7 +199,8 @@ in lieu of a more powerful assembler</p>
               <div class="sswrap ">
                 <a class="ss" href="#section-9">&#x00a7;</a>
               </div>
-              <p><code>dq</code> defines a (little endian) quadword</p>
+              <p><code>dq</code> defines a quadword: 8 bytes.
+<code>dq(0x12345678)</code> =&gt; <code>db([0x78,0x56,0x23,0x12,0x0,0x0,0x0,0x0])</code></p>
 
             </div>
             
@@ -237,27 +239,7 @@ opcode data which must be fixed up at load time</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">def</span> <span class="hljs-title function_">add</span>(<span class="hljs-params">a</span>):
-    a.db([<span class="hljs-number">0x59</span>,<span class="hljs-number">0x58</span>,<span class="hljs-number">0x48</span>,<span class="hljs-number">0x01</span>,<span class="hljs-number">0xc8</span>,<span class="hljs-number">0x50</span>])
-
-<span class="hljs-keyword">def</span> <span class="hljs-title function_">sub</span>(<span class="hljs-params">a</span>):
-    a.db([<span class="hljs-number">0x59</span>,<span class="hljs-number">0x58</span>,<span class="hljs-number">0x48</span>,<span class="hljs-number">0x29</span>,<span class="hljs-number">0xc8</span>,<span class="hljs-number">0x50</span>])
-
-<span class="hljs-keyword">def</span> <span class="hljs-title function_">mul</span>(<span class="hljs-params">a</span>):
-    a.db([<span class="hljs-number">0x59</span>,<span class="hljs-number">0x58</span>,<span class="hljs-number">0x48</span>,<span class="hljs-number">0xf7</span>,<span class="hljs-number">0xe9</span>,<span class="hljs-number">0x50</span>])
-
-<span class="hljs-keyword">def</span> <span class="hljs-title function_">div</span>(<span class="hljs-params">a</span>):
-    a.db([<span class="hljs-number">0x59</span>,<span class="hljs-number">0x58</span>,<span class="hljs-number">0x48</span>,<span class="hljs-number">0x99</span>,<span class="hljs-number">0x48</span>,<span class="hljs-number">0xf7</span>,<span class="hljs-number">0xf9</span>,<span class="hljs-number">0x50</span>])
-
-<span class="hljs-keyword">def</span> <span class="hljs-title function_">leq</span>(<span class="hljs-params">a</span>):
-    a.db([<span class="hljs-number">0x59</span>,<span class="hljs-number">0x58</span>,<span class="hljs-number">0x48</span>,<span class="hljs-number">0xff</span>,<span class="hljs-number">0xc1</span>,<span class="hljs-number">0x48</span>,<span class="hljs-number">0x29</span>,<span class="hljs-number">0xc8</span>,<span class="hljs-number">0x48</span>,<span class="hljs-number">0x99</span>])
-    a.db([<span class="hljs-number">0x48</span>,<span class="hljs-number">0x83</span>,<span class="hljs-number">0xe2</span>,<span class="hljs-number">0x01</span>,<span class="hljs-number">0x52</span>])
-
-<span class="hljs-keyword">def</span> <span class="hljs-title function_">lt</span>(<span class="hljs-params">a</span>):
-    a.db([<span class="hljs-number">0x59</span>,<span class="hljs-number">0x58</span>,<span class="hljs-number">0x48</span>,<span class="hljs-number">0x29</span>,<span class="hljs-number">0xc8</span>,<span class="hljs-number">0x48</span>,<span class="hljs-number">0x99</span>,<span class="hljs-number">0x48</span>,<span class="hljs-number">0x83</span>,<span class="hljs-number">0xe2</span>,<span class="hljs-number">0x01</span>,<span class="hljs-number">0x52</span>])
-
-<span class="hljs-keyword">def</span> <span class="hljs-title function_">neg</span>(<span class="hljs-params">a</span>):
-    a.db([<span class="hljs-number">0x59</span>,<span class="hljs-number">0x48</span>,<span class="hljs-number">0x31</span>,<span class="hljs-number">0xc0</span>,<span class="hljs-number">0x48</span>,<span class="hljs-number">0x29</span>,<span class="hljs-number">0xc8</span>,<span class="hljs-number">0x50</span>])</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">def</span> <span class="hljs-title function_">add</span>(<span class="hljs-params">a</span>):</pre></div></div>
             
         </li>
         
@@ -268,18 +250,13 @@ opcode data which must be fixed up at load time</p>
               <div class="sswrap ">
                 <a class="ss" href="#section-12">&#x00a7;</a>
               </div>
-              <p>to handle <code>^</code> we call back into python code</p>
+              <p><em>popq %rcx; popq %rax; addq %rcx,%rax; pushq %rax</em></p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-meta">@CFUNCTYPE(<span class="hljs-params">c_long, c_long,c_long</span>)</span>
-<span class="hljs-keyword">def</span> <span class="hljs-title function_">py_exp</span>(<span class="hljs-params">a,b</span>):
-    <span class="hljs-keyword">return</span> a**b <span class="hljs-keyword">if</span> <span class="hljs-number">0</span>&lt;=b <span class="hljs-keyword">else</span> <span class="hljs-number">0</span> <span class="hljs-comment"># not quite right</span>
+            <div class="content"><div class='highlight'><pre>    a.db([<span class="hljs-number">0x59</span>,<span class="hljs-number">0x58</span>,<span class="hljs-number">0x48</span>,<span class="hljs-number">0x01</span>,<span class="hljs-number">0xc8</span>,<span class="hljs-number">0x50</span>])
 
-<span class="hljs-keyword">def</span> <span class="hljs-title function_">exp</span>(<span class="hljs-params">a</span>):
-    a.db([<span class="hljs-number">0x5e</span>,<span class="hljs-number">0x5f</span>,<span class="hljs-number">0x53</span>,<span class="hljs-number">0x48</span>,<span class="hljs-number">0x89</span>,<span class="hljs-number">0xe3</span>,<span class="hljs-number">0x48</span>,<span class="hljs-number">0x83</span>,<span class="hljs-number">0xe3</span>,<span class="hljs-number">0x08</span>,<span class="hljs-number">0x48</span>,<span class="hljs-number">0x29</span>,<span class="hljs-number">0xdc</span>])
-    a.db([<span class="hljs-number">0xe8</span>]); a.reloc(cast(py_exp,c_void_p).value)
-    a.db([<span class="hljs-number">0x48</span>,<span class="hljs-number">0x01</span>,<span class="hljs-number">0xdc</span>,<span class="hljs-number">0x5b</span>,<span class="hljs-number">0x50</span>])</pre></div></div>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">sub</span>(<span class="hljs-params">a</span>):</pre></div></div>
             
         </li>
         
@@ -290,13 +267,13 @@ opcode data which must be fixed up at load time</p>
               <div class="sswrap ">
                 <a class="ss" href="#section-13">&#x00a7;</a>
               </div>
-              <p>for simplicity <code>lit</code>eral data is always coded as a quad immediate</p>
+              <p><em>popq %rcx; popq %rax; subq %rcx,%rax; pushq %rax</em></p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">def</span> <span class="hljs-title function_">lit</span>(<span class="hljs-params">a,v</span>):
-    a.db([<span class="hljs-number">0x48</span>,<span class="hljs-number">0xb8</span>]); a.dq(v)
-    a.db([<span class="hljs-number">0x50</span>])</pre></div></div>
+            <div class="content"><div class='highlight'><pre>    a.db([<span class="hljs-number">0x59</span>,<span class="hljs-number">0x58</span>,<span class="hljs-number">0x48</span>,<span class="hljs-number">0x29</span>,<span class="hljs-number">0xc8</span>,<span class="hljs-number">0x50</span>])
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">mul</span>(<span class="hljs-params">a</span>):</pre></div></div>
             
         </li>
         
@@ -306,6 +283,199 @@ opcode data which must be fixed up at load time</p>
               
               <div class="sswrap ">
                 <a class="ss" href="#section-14">&#x00a7;</a>
+              </div>
+              <p><em>popq %rcx; popq %rax; imulq %rcx; pushq %rax</em></p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    a.db([<span class="hljs-number">0x59</span>,<span class="hljs-number">0x58</span>,<span class="hljs-number">0x48</span>,<span class="hljs-number">0xf7</span>,<span class="hljs-number">0xe9</span>,<span class="hljs-number">0x50</span>])
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">div</span>(<span class="hljs-params">a</span>):</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-15">
+            <div class="annotation">
+              
+              <div class="sswrap ">
+                <a class="ss" href="#section-15">&#x00a7;</a>
+              </div>
+              <p><em>popq %rcx; popq %rax; cqto; idivq %rcx; pushq %rax</em></p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    a.db([<span class="hljs-number">0x59</span>,<span class="hljs-number">0x58</span>,<span class="hljs-number">0x48</span>,<span class="hljs-number">0x99</span>,<span class="hljs-number">0x48</span>,<span class="hljs-number">0xf7</span>,<span class="hljs-number">0xf9</span>,<span class="hljs-number">0x50</span>])
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">leq</span>(<span class="hljs-params">a</span>):</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-16">
+            <div class="annotation">
+              
+              <div class="sswrap ">
+                <a class="ss" href="#section-16">&#x00a7;</a>
+              </div>
+              <p><em>popq %rcx; popq %rax; incq %rcx; subq %rcx,%rax; cqto</em></p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    a.db([<span class="hljs-number">0x59</span>,<span class="hljs-number">0x58</span>,<span class="hljs-number">0x48</span>,<span class="hljs-number">0xff</span>,<span class="hljs-number">0xc1</span>,<span class="hljs-number">0x48</span>,<span class="hljs-number">0x29</span>,<span class="hljs-number">0xc8</span>,<span class="hljs-number">0x48</span>,<span class="hljs-number">0x99</span>])</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-17">
+            <div class="annotation">
+              
+              <div class="sswrap ">
+                <a class="ss" href="#section-17">&#x00a7;</a>
+              </div>
+              <p><em>andq $1, %rdx; pushq %rdx</em></p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    a.db([<span class="hljs-number">0x48</span>,<span class="hljs-number">0x83</span>,<span class="hljs-number">0xe2</span>,<span class="hljs-number">0x01</span>,<span class="hljs-number">0x52</span>])
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">lt</span>(<span class="hljs-params">a</span>):</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-18">
+            <div class="annotation">
+              
+              <div class="sswrap ">
+                <a class="ss" href="#section-18">&#x00a7;</a>
+              </div>
+              <p><em>popq %rcx; popq %rax; subq %rcx,%rax; cqto; andq $1, %rdx; pushq %rdx</em></p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    a.db([<span class="hljs-number">0x59</span>,<span class="hljs-number">0x58</span>,<span class="hljs-number">0x48</span>,<span class="hljs-number">0x29</span>,<span class="hljs-number">0xc8</span>,<span class="hljs-number">0x48</span>,<span class="hljs-number">0x99</span>,<span class="hljs-number">0x48</span>,<span class="hljs-number">0x83</span>,<span class="hljs-number">0xe2</span>,<span class="hljs-number">0x01</span>,<span class="hljs-number">0x52</span>])
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">neg</span>(<span class="hljs-params">a</span>):</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-19">
+            <div class="annotation">
+              
+              <div class="sswrap ">
+                <a class="ss" href="#section-19">&#x00a7;</a>
+              </div>
+              <p><em>popq %rcx; xorq %rax,%rax; subq %rcx,%rax; pushq %rax</em></p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    a.db([<span class="hljs-number">0x59</span>,<span class="hljs-number">0x48</span>,<span class="hljs-number">0x31</span>,<span class="hljs-number">0xc0</span>,<span class="hljs-number">0x48</span>,<span class="hljs-number">0x29</span>,<span class="hljs-number">0xc8</span>,<span class="hljs-number">0x50</span>])</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-20">
+            <div class="annotation">
+              
+              <div class="sswrap ">
+                <a class="ss" href="#section-20">&#x00a7;</a>
+              </div>
+              <p>to handle <code>^</code> we call back into python code</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-meta">@CFUNCTYPE(<span class="hljs-params">c_long, c_long,c_long</span>)</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">py_exp</span>(<span class="hljs-params">a,b</span>):
+    <span class="hljs-keyword">return</span> a**b <span class="hljs-keyword">if</span> <span class="hljs-number">0</span>&lt;=b <span class="hljs-keyword">else</span> <span class="hljs-number">0</span> <span class="hljs-comment"># not quite right</span>
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">exp</span>(<span class="hljs-params">a</span>):</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-21">
+            <div class="annotation">
+              
+              <div class="sswrap ">
+                <a class="ss" href="#section-21">&#x00a7;</a>
+              </div>
+              <p><em>popq %rsi; popq %rdi; pushq %rbx; movq %rsp,%rbx; andq $8,%rbx; subq %rbx,%rsp</em></p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    a.db([<span class="hljs-number">0x5e</span>,<span class="hljs-number">0x5f</span>,<span class="hljs-number">0x53</span>,<span class="hljs-number">0x48</span>,<span class="hljs-number">0x89</span>,<span class="hljs-number">0xe3</span>,<span class="hljs-number">0x48</span>,<span class="hljs-number">0x83</span>,<span class="hljs-number">0xe3</span>,<span class="hljs-number">0x08</span>,<span class="hljs-number">0x48</span>,<span class="hljs-number">0x29</span>,<span class="hljs-number">0xdc</span>])</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-22">
+            <div class="annotation">
+              
+              <div class="sswrap ">
+                <a class="ss" href="#section-22">&#x00a7;</a>
+              </div>
+              <p><em>callq</em> <code>py_exp</code></p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    a.db([<span class="hljs-number">0xe8</span>]); a.reloc(cast(py_exp,c_void_p).value)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-23">
+            <div class="annotation">
+              
+              <div class="sswrap ">
+                <a class="ss" href="#section-23">&#x00a7;</a>
+              </div>
+              <p><em>addq %rbx,%rsp; popq %rbx; pushq %rax</em></p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    a.db([<span class="hljs-number">0x48</span>,<span class="hljs-number">0x01</span>,<span class="hljs-number">0xdc</span>,<span class="hljs-number">0x5b</span>,<span class="hljs-number">0x50</span>])</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-24">
+            <div class="annotation">
+              
+              <div class="sswrap ">
+                <a class="ss" href="#section-24">&#x00a7;</a>
+              </div>
+              <p>for simplicity <code>lit</code>eral data is always coded as a quad immediate</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">def</span> <span class="hljs-title function_">lit</span>(<span class="hljs-params">a,v</span>):</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-25">
+            <div class="annotation">
+              
+              <div class="sswrap ">
+                <a class="ss" href="#section-25">&#x00a7;</a>
+              </div>
+              <p><em>movabsq</em> <code>v</code><em>,%rax; pushq %rax</em></p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    a.db([<span class="hljs-number">0x48</span>,<span class="hljs-number">0xb8</span>]); a.dq(v);
+    a.db([<span class="hljs-number">0x50</span>])</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-26">
+            <div class="annotation">
+              
+              <div class="sswrap ">
+                <a class="ss" href="#section-26">&#x00a7;</a>
               </div>
               <p>given a concrete syntax tree, <code>codegen</code> assembles the threaded
 code blocks in order to calculate its value</p>
@@ -322,11 +492,11 @@ code blocks in order to calculate its value</p>
         </li>
         
         
-        <li id="section-15">
+        <li id="section-27">
             <div class="annotation">
               
               <div class="sswrap ">
-                <a class="ss" href="#section-15">&#x00a7;</a>
+                <a class="ss" href="#section-27">&#x00a7;</a>
               </div>
               <p>allow ascii-syntax operations as well</p>
 
@@ -340,11 +510,11 @@ code blocks in order to calculate its value</p>
         </li>
         
         
-        <li id="section-16">
+        <li id="section-28">
             <div class="annotation">
               
               <div class="sswrap ">
-                <a class="ss" href="#section-16">&#x00a7;</a>
+                <a class="ss" href="#section-28">&#x00a7;</a>
               </div>
               <p><code>gen</code> does a syntax-directed tree walk. Gen of
 <code>[&#39;+&#39;,1,[&#39;*&#39;,2,3]]</code> assembles the concatenation <code>&lt;1&gt; &lt;2&gt; &lt;3&gt; * +</code></p>
@@ -361,11 +531,11 @@ code blocks in order to calculate its value</p>
         </li>
         
         
-        <li id="section-17">
+        <li id="section-29">
             <div class="annotation">
               
               <div class="sswrap ">
-                <a class="ss" href="#section-17">&#x00a7;</a>
+                <a class="ss" href="#section-29">&#x00a7;</a>
               </div>
               <p>we process the syntax tree in postorder</p>
 
@@ -386,11 +556,11 @@ code blocks in order to calculate its value</p>
         </li>
         
         
-        <li id="section-18">
+        <li id="section-30">
             <div class="annotation">
               
               <div class="sswrap ">
-                <a class="ss" href="#section-18">&#x00a7;</a>
+                <a class="ss" href="#section-30">&#x00a7;</a>
               </div>
               <hr>
 
@@ -399,11 +569,11 @@ code blocks in order to calculate its value</p>
         </li>
         
         
-        <li id="section-19">
+        <li id="section-31">
             <div class="annotation">
               
               <div class="sswrap ">
-                <a class="ss" href="#section-19">&#x00a7;</a>
+                <a class="ss" href="#section-31">&#x00a7;</a>
               </div>
               
             </div>
@@ -414,11 +584,11 @@ Thunk = CFUNCTYPE(c_long)</pre></div></div>
         </li>
         
         
-        <li id="section-20">
+        <li id="section-32">
             <div class="annotation">
               
               <div class="sswrap ">
-                <a class="ss" href="#section-20">&#x00a7;</a>
+                <a class="ss" href="#section-32">&#x00a7;</a>
               </div>
               <p><code>JitPage</code> grubs around with <code>ctypes</code> to load and execute the assembled code.
 The address of our executable page is <code>adr</code> and it extends <code>len</code> bytes.</p>
@@ -435,11 +605,11 @@ The address of our executable page is <code>adr</code> and it extends <code>len<
         </li>
         
         
-        <li id="section-21">
+        <li id="section-33">
             <div class="annotation">
               
               <div class="sswrap ">
-                <a class="ss" href="#section-21">&#x00a7;</a>
+                <a class="ss" href="#section-33">&#x00a7;</a>
               </div>
               <p>there <em>has</em> to be a better way to check for SYSV x86-64!?</p>
 
@@ -455,11 +625,11 @@ The address of our executable page is <code>adr</code> and it extends <code>len<
         </li>
         
         
-        <li id="section-22">
+        <li id="section-34">
             <div class="annotation">
               
               <div class="sswrap ">
-                <a class="ss" href="#section-22">&#x00a7;</a>
+                <a class="ss" href="#section-34">&#x00a7;</a>
               </div>
               <p>establish some libc linkages</p>
 
@@ -476,11 +646,11 @@ The address of our executable page is <code>adr</code> and it extends <code>len<
         </li>
         
         
-        <li id="section-23">
+        <li id="section-35">
             <div class="annotation">
               
               <div class="sswrap ">
-                <a class="ss" href="#section-23">&#x00a7;</a>
+                <a class="ss" href="#section-35">&#x00a7;</a>
               </div>
               <p>allocate RWX page</p>
 
@@ -493,11 +663,11 @@ The address of our executable page is <code>adr</code> and it extends <code>len<
         </li>
         
         
-        <li id="section-24">
+        <li id="section-36">
             <div class="annotation">
               
               <div class="sswrap ">
-                <a class="ss" href="#section-24">&#x00a7;</a>
+                <a class="ss" href="#section-36">&#x00a7;</a>
               </div>
               <p><code>fixup</code> is called if necessary at load time to encode <code>rip</code>-relative
 offsets between our calls and their referents</p>
@@ -509,11 +679,11 @@ offsets between our calls and their referents</p>
         </li>
         
         
-        <li id="section-25">
+        <li id="section-37">
             <div class="annotation">
               
               <div class="sswrap ">
-                <a class="ss" href="#section-25">&#x00a7;</a>
+                <a class="ss" href="#section-37">&#x00a7;</a>
               </div>
               <p>assumption: our page and ctypes’ thunks are within 32 bits</p>
 
@@ -527,11 +697,11 @@ offsets between our calls and their referents</p>
         </li>
         
         
-        <li id="section-26">
+        <li id="section-38">
             <div class="annotation">
               
               <div class="sswrap ">
-                <a class="ss" href="#section-26">&#x00a7;</a>
+                <a class="ss" href="#section-38">&#x00a7;</a>
               </div>
               <p><code>load</code> copies assembled code into the RWX page,
 returning a function pointer to the start of the assembly.</p>
@@ -547,11 +717,11 @@ returning a function pointer to the start of the assembly.</p>
         </li>
         
         
-        <li id="section-27">
+        <li id="section-39">
             <div class="annotation">
               
               <div class="sswrap ">
-                <a class="ss" href="#section-27">&#x00a7;</a>
+                <a class="ss" href="#section-39">&#x00a7;</a>
               </div>
               <p>fill with breakpoints</p>
 
@@ -562,11 +732,11 @@ returning a function pointer to the start of the assembly.</p>
         </li>
         
         
-        <li id="section-28">
+        <li id="section-40">
             <div class="annotation">
               
               <div class="sswrap ">
-                <a class="ss" href="#section-28">&#x00a7;</a>
+                <a class="ss" href="#section-40">&#x00a7;</a>
               </div>
               <p>load in the opcodes</p>
 
@@ -577,11 +747,11 @@ returning a function pointer to the start of the assembly.</p>
         </li>
         
         
-        <li id="section-29">
+        <li id="section-41">
             <div class="annotation">
               
               <div class="sswrap ">
-                <a class="ss" href="#section-29">&#x00a7;</a>
+                <a class="ss" href="#section-41">&#x00a7;</a>
               </div>
               <p>fix up relative references</p>
 
@@ -594,11 +764,11 @@ returning a function pointer to the start of the assembly.</p>
         </li>
         
         
-        <li id="section-30">
+        <li id="section-42">
             <div class="annotation">
               
               <div class="sswrap ">
-                <a class="ss" href="#section-30">&#x00a7;</a>
+                <a class="ss" href="#section-42">&#x00a7;</a>
               </div>
               <p><code>eval</code> assembles code for a parsed expression, loads, and executes</p>
 
@@ -611,11 +781,11 @@ returning a function pointer to the start of the assembly.</p>
         </li>
         
         
-        <li id="section-31">
+        <li id="section-43">
             <div class="annotation">
               
               <div class="sswrap ">
-                <a class="ss" href="#section-31">&#x00a7;</a>
+                <a class="ss" href="#section-43">&#x00a7;</a>
               </div>
               <hr>
 
@@ -624,11 +794,11 @@ returning a function pointer to the start of the assembly.</p>
         </li>
         
         
-        <li id="section-32">
+        <li id="section-44">
             <div class="annotation">
               
               <div class="sswrap ">
-                <a class="ss" href="#section-32">&#x00a7;</a>
+                <a class="ss" href="#section-44">&#x00a7;</a>
               </div>
               
             </div>
