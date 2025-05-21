@@ -20,6 +20,11 @@
             <div id="jump_page">
               
                 
+                <a class="source" href="../json-parser/index.html">
+                  ./json-parser/index.hs
+                </a>
+              
+                
                 <a class="source" href="../just-in-time/index.html">
                   ./just-in-time/index.py
                 </a>
@@ -652,159 +657,159 @@ lines but are illustrative.</p>
 
 <span class="hljs-keyword">class</span> <span class="hljs-title class_">TokenizerTests</span>(unittest.TestCase):
     <span class="hljs-keyword">def</span> <span class="hljs-title function_">test_empty</span>(<span class="hljs-params">self</span>):
-        self.assertEqual(tokenize(<span class="hljs-string">&quot;&quot;</span>), [])
+        <span class="hljs-variable language_">self</span>.assertEqual(tokenize(<span class="hljs-string">&quot;&quot;</span>), [])
 
     <span class="hljs-keyword">def</span> <span class="hljs-title function_">test_digit</span>(<span class="hljs-params">self</span>):
-        self.assertEqual(tokenize(<span class="hljs-string">&quot;1&quot;</span>), [<span class="hljs-number">1</span>])
+        <span class="hljs-variable language_">self</span>.assertEqual(tokenize(<span class="hljs-string">&quot;1&quot;</span>), [<span class="hljs-number">1</span>])
 
     <span class="hljs-keyword">def</span> <span class="hljs-title function_">test_number</span>(<span class="hljs-params">self</span>):
-        self.assertEqual(tokenize(<span class="hljs-string">&quot;123&quot;</span>), [<span class="hljs-number">123</span>])
+        <span class="hljs-variable language_">self</span>.assertEqual(tokenize(<span class="hljs-string">&quot;123&quot;</span>), [<span class="hljs-number">123</span>])
 
     <span class="hljs-keyword">def</span> <span class="hljs-title function_">test_add</span>(<span class="hljs-params">self</span>):
-        self.assertEqual(tokenize(<span class="hljs-string">&quot;+&quot;</span>), [<span class="hljs-string">&quot;+&quot;</span>])
+        <span class="hljs-variable language_">self</span>.assertEqual(tokenize(<span class="hljs-string">&quot;+&quot;</span>), [<span class="hljs-string">&quot;+&quot;</span>])
 
     <span class="hljs-keyword">def</span> <span class="hljs-title function_">test_sub</span>(<span class="hljs-params">self</span>):
-        self.assertEqual(tokenize(<span class="hljs-string">&quot;-&quot;</span>), [<span class="hljs-string">&quot;-&quot;</span>])
+        <span class="hljs-variable language_">self</span>.assertEqual(tokenize(<span class="hljs-string">&quot;-&quot;</span>), [<span class="hljs-string">&quot;-&quot;</span>])
 
     <span class="hljs-keyword">def</span> <span class="hljs-title function_">test_sub</span>(<span class="hljs-params">self</span>):
-        self.assertEqual(tokenize(<span class="hljs-string">&quot;-&quot;</span>), [<span class="hljs-string">&quot;-&quot;</span>])
+        <span class="hljs-variable language_">self</span>.assertEqual(tokenize(<span class="hljs-string">&quot;-&quot;</span>), [<span class="hljs-string">&quot;-&quot;</span>])
 
     <span class="hljs-keyword">def</span> <span class="hljs-title function_">test_mul</span>(<span class="hljs-params">self</span>):
-        self.assertEqual(tokenize(<span class="hljs-string">&quot;*&quot;</span>), [<span class="hljs-string">&quot;*&quot;</span>])
+        <span class="hljs-variable language_">self</span>.assertEqual(tokenize(<span class="hljs-string">&quot;*&quot;</span>), [<span class="hljs-string">&quot;*&quot;</span>])
 
     <span class="hljs-keyword">def</span> <span class="hljs-title function_">test_div</span>(<span class="hljs-params">self</span>):
-        self.assertEqual(tokenize(<span class="hljs-string">&quot;/&quot;</span>), [<span class="hljs-string">&quot;/&quot;</span>])
+        <span class="hljs-variable language_">self</span>.assertEqual(tokenize(<span class="hljs-string">&quot;/&quot;</span>), [<span class="hljs-string">&quot;/&quot;</span>])
 
     <span class="hljs-keyword">def</span> <span class="hljs-title function_">test_pow</span>(<span class="hljs-params">self</span>):
-        self.assertEqual(tokenize(<span class="hljs-string">&quot;^&quot;</span>), [<span class="hljs-string">&quot;^&quot;</span>])
+        <span class="hljs-variable language_">self</span>.assertEqual(tokenize(<span class="hljs-string">&quot;^&quot;</span>), [<span class="hljs-string">&quot;^&quot;</span>])
 
     <span class="hljs-keyword">def</span> <span class="hljs-title function_">test_comma</span>(<span class="hljs-params">self</span>):
-        self.assertEqual(tokenize(<span class="hljs-string">&quot;,&quot;</span>), [<span class="hljs-string">&quot;,&quot;</span>])
+        <span class="hljs-variable language_">self</span>.assertEqual(tokenize(<span class="hljs-string">&quot;,&quot;</span>), [<span class="hljs-string">&quot;,&quot;</span>])
 
     <span class="hljs-keyword">def</span> <span class="hljs-title function_">test_less</span>(<span class="hljs-params">self</span>):
-        self.assertEqual(tokenize(<span class="hljs-string">&quot;&lt;&quot;</span>), [<span class="hljs-string">&quot;&lt;&quot;</span>])
+        <span class="hljs-variable language_">self</span>.assertEqual(tokenize(<span class="hljs-string">&quot;&lt;&quot;</span>), [<span class="hljs-string">&quot;&lt;&quot;</span>])
 
     <span class="hljs-keyword">def</span> <span class="hljs-title function_">test_less_than_one</span>(<span class="hljs-params">self</span>):
-        self.assertEqual(tokenize(<span class="hljs-string">&quot;&lt;1&quot;</span>), [<span class="hljs-string">&quot;&lt;&quot;</span>, <span class="hljs-number">1</span>])
+        <span class="hljs-variable language_">self</span>.assertEqual(tokenize(<span class="hljs-string">&quot;&lt;1&quot;</span>), [<span class="hljs-string">&quot;&lt;&quot;</span>, <span class="hljs-number">1</span>])
 
     <span class="hljs-keyword">def</span> <span class="hljs-title function_">test_less_equal_one</span>(<span class="hljs-params">self</span>):
-        self.assertEqual(tokenize(<span class="hljs-string">&quot;&lt;=1&quot;</span>), [<span class="hljs-string">&quot;&lt;=&quot;</span>, <span class="hljs-number">1</span>])
+        <span class="hljs-variable language_">self</span>.assertEqual(tokenize(<span class="hljs-string">&quot;&lt;=1&quot;</span>), [<span class="hljs-string">&quot;&lt;=&quot;</span>, <span class="hljs-number">1</span>])
 
     <span class="hljs-keyword">def</span> <span class="hljs-title function_">test_skip_whitespace</span>(<span class="hljs-params">self</span>):
-        self.assertEqual(tokenize(<span class="hljs-string">&quot;1         2&quot;</span>), [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>])
+        <span class="hljs-variable language_">self</span>.assertEqual(tokenize(<span class="hljs-string">&quot;1         2&quot;</span>), [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>])
 
     <span class="hljs-keyword">def</span> <span class="hljs-title function_">test_skip_line_comment</span>(<span class="hljs-params">self</span>):
-        self.assertEqual(tokenize(<span class="hljs-string">&quot;1#         2\n3&quot;</span>), [<span class="hljs-number">1</span>, <span class="hljs-number">3</span>])
+        <span class="hljs-variable language_">self</span>.assertEqual(tokenize(<span class="hljs-string">&quot;1#         2\n3&quot;</span>), [<span class="hljs-number">1</span>, <span class="hljs-number">3</span>])
 
     <span class="hljs-keyword">def</span> <span class="hljs-title function_">test_unrecognized_operator</span>(<span class="hljs-params">self</span>):
-        <span class="hljs-keyword">with</span> self.assertRaises(ParseError):
+        <span class="hljs-keyword">with</span> <span class="hljs-variable language_">self</span>.assertRaises(ParseError):
             tokenize(<span class="hljs-string">&quot;%&quot;</span>)
 
     <span class="hljs-keyword">def</span> <span class="hljs-title function_">test_var</span>(<span class="hljs-params">self</span>):
-        self.assertEqual(tokenize(<span class="hljs-string">&quot;a&quot;</span>), [<span class="hljs-string">&quot;a&quot;</span>])
-        self.assertEqual(tokenize(<span class="hljs-string">&quot;abc&quot;</span>), [<span class="hljs-string">&quot;abc&quot;</span>])
+        <span class="hljs-variable language_">self</span>.assertEqual(tokenize(<span class="hljs-string">&quot;a&quot;</span>), [<span class="hljs-string">&quot;a&quot;</span>])
+        <span class="hljs-variable language_">self</span>.assertEqual(tokenize(<span class="hljs-string">&quot;abc&quot;</span>), [<span class="hljs-string">&quot;abc&quot;</span>])
 
 
 <span class="hljs-keyword">class</span> <span class="hljs-title class_">ParseTests</span>(unittest.TestCase):
     <span class="hljs-keyword">def</span> <span class="hljs-title function_">assert_parse_error</span>(<span class="hljs-params">self, message</span>):
-        <span class="hljs-keyword">return</span> self.assertRaisesRegex(ParseError, re.escape(message))
+        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">self</span>.assertRaisesRegex(ParseError, re.escape(message))
 
     <span class="hljs-keyword">def</span> <span class="hljs-title function_">test_empty</span>(<span class="hljs-params">self</span>):
-        <span class="hljs-keyword">with</span> self.assert_parse_error(<span class="hljs-string">&quot;Unexpected end of input&quot;</span>):
+        <span class="hljs-keyword">with</span> <span class="hljs-variable language_">self</span>.assert_parse_error(<span class="hljs-string">&quot;Unexpected end of input&quot;</span>):
             parse([])
 
     <span class="hljs-keyword">def</span> <span class="hljs-title function_">test_const</span>(<span class="hljs-params">self</span>) -&gt; <span class="hljs-literal">None</span>:
-        self.assertEqual(parse([<span class="hljs-number">3</span>]), <span class="hljs-number">3</span>)
+        <span class="hljs-variable language_">self</span>.assertEqual(parse([<span class="hljs-number">3</span>]), <span class="hljs-number">3</span>)
 
     <span class="hljs-keyword">def</span> <span class="hljs-title function_">test_var</span>(<span class="hljs-params">self</span>) -&gt; <span class="hljs-literal">None</span>:
-        self.assertEqual(parse([<span class="hljs-string">&quot;abc&quot;</span>]), <span class="hljs-string">&quot;abc&quot;</span>)
+        <span class="hljs-variable language_">self</span>.assertEqual(parse([<span class="hljs-string">&quot;abc&quot;</span>]), <span class="hljs-string">&quot;abc&quot;</span>)
 
     <span class="hljs-keyword">def</span> <span class="hljs-title function_">test_const_leftover_raises</span>(<span class="hljs-params">self</span>) -&gt; <span class="hljs-literal">None</span>:
-        <span class="hljs-keyword">with</span> self.assert_parse_error(<span class="hljs-string">&quot;Unexpected tokens: 4 5&quot;</span>):
+        <span class="hljs-keyword">with</span> <span class="hljs-variable language_">self</span>.assert_parse_error(<span class="hljs-string">&quot;Unexpected tokens: 4 5&quot;</span>):
             parse([<span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>])
 
     <span class="hljs-keyword">def</span> <span class="hljs-title function_">test_const_paren</span>(<span class="hljs-params">self</span>) -&gt; <span class="hljs-literal">None</span>:
-        self.assertEqual(parse([<span class="hljs-string">&quot;(&quot;</span>, <span class="hljs-number">3</span>, <span class="hljs-string">&quot;)&quot;</span>]), <span class="hljs-number">3</span>)
-        self.assertEqual(parse([<span class="hljs-string">&quot;(&quot;</span>, <span class="hljs-string">&quot;(&quot;</span>, <span class="hljs-string">&quot;(&quot;</span>, <span class="hljs-number">3</span>, <span class="hljs-string">&quot;)&quot;</span>, <span class="hljs-string">&quot;)&quot;</span>, <span class="hljs-string">&quot;)&quot;</span>]), <span class="hljs-number">3</span>)
+        <span class="hljs-variable language_">self</span>.assertEqual(parse([<span class="hljs-string">&quot;(&quot;</span>, <span class="hljs-number">3</span>, <span class="hljs-string">&quot;)&quot;</span>]), <span class="hljs-number">3</span>)
+        <span class="hljs-variable language_">self</span>.assertEqual(parse([<span class="hljs-string">&quot;(&quot;</span>, <span class="hljs-string">&quot;(&quot;</span>, <span class="hljs-string">&quot;(&quot;</span>, <span class="hljs-number">3</span>, <span class="hljs-string">&quot;)&quot;</span>, <span class="hljs-string">&quot;)&quot;</span>, <span class="hljs-string">&quot;)&quot;</span>]), <span class="hljs-number">3</span>)
 
     <span class="hljs-keyword">def</span> <span class="hljs-title function_">test_const_paren_missing</span>(<span class="hljs-params">self</span>) -&gt; <span class="hljs-literal">None</span>:
-        <span class="hljs-keyword">with</span> self.assert_parse_error(<span class="hljs-string">&quot;Expected closing parenthesis&quot;</span>):
+        <span class="hljs-keyword">with</span> <span class="hljs-variable language_">self</span>.assert_parse_error(<span class="hljs-string">&quot;Expected closing parenthesis&quot;</span>):
             parse([<span class="hljs-string">&quot;(&quot;</span>, <span class="hljs-number">3</span>])
 
-        <span class="hljs-keyword">with</span> self.assert_parse_error(<span class="hljs-string">&quot;Unexpected tokens: )&quot;</span>):
+        <span class="hljs-keyword">with</span> <span class="hljs-variable language_">self</span>.assert_parse_error(<span class="hljs-string">&quot;Unexpected tokens: )&quot;</span>):
             parse([<span class="hljs-number">3</span>, <span class="hljs-string">&quot;)&quot;</span>])
 
     <span class="hljs-keyword">def</span> <span class="hljs-title function_">test_call_fun</span>(<span class="hljs-params">self</span>) -&gt; <span class="hljs-literal">None</span>:
-        self.assertEqual(parse([<span class="hljs-string">&quot;f&quot;</span>, <span class="hljs-string">&quot;(&quot;</span>, <span class="hljs-string">&quot;x&quot;</span>, <span class="hljs-string">&quot;)&quot;</span>]), [<span class="hljs-string">&quot;f&quot;</span>, <span class="hljs-string">&quot;x&quot;</span>])
+        <span class="hljs-variable language_">self</span>.assertEqual(parse([<span class="hljs-string">&quot;f&quot;</span>, <span class="hljs-string">&quot;(&quot;</span>, <span class="hljs-string">&quot;x&quot;</span>, <span class="hljs-string">&quot;)&quot;</span>]), [<span class="hljs-string">&quot;f&quot;</span>, <span class="hljs-string">&quot;x&quot;</span>])
 
     <span class="hljs-keyword">def</span> <span class="hljs-title function_">test_call_fun_no_arguments</span>(<span class="hljs-params">self</span>) -&gt; <span class="hljs-literal">None</span>:
-        self.assertEqual(parse([<span class="hljs-string">&quot;f&quot;</span>, <span class="hljs-string">&quot;(&quot;</span>, <span class="hljs-string">&quot;)&quot;</span>]), [<span class="hljs-string">&quot;f&quot;</span>])
+        <span class="hljs-variable language_">self</span>.assertEqual(parse([<span class="hljs-string">&quot;f&quot;</span>, <span class="hljs-string">&quot;(&quot;</span>, <span class="hljs-string">&quot;)&quot;</span>]), [<span class="hljs-string">&quot;f&quot;</span>])
 
     <span class="hljs-keyword">def</span> <span class="hljs-title function_">test_call_fun_missing_closing_paren</span>(<span class="hljs-params">self</span>) -&gt; <span class="hljs-literal">None</span>:
-        <span class="hljs-keyword">with</span> self.assert_parse_error(<span class="hljs-string">&quot;Expected closing parenthesis in function call&quot;</span>):
+        <span class="hljs-keyword">with</span> <span class="hljs-variable language_">self</span>.assert_parse_error(<span class="hljs-string">&quot;Expected closing parenthesis in function call&quot;</span>):
             parse([<span class="hljs-string">&quot;f&quot;</span>, <span class="hljs-string">&quot;(&quot;</span>])
 
-        <span class="hljs-keyword">with</span> self.assert_parse_error(<span class="hljs-string">&quot;Expected closing parenthesis in function call&quot;</span>):
+        <span class="hljs-keyword">with</span> <span class="hljs-variable language_">self</span>.assert_parse_error(<span class="hljs-string">&quot;Expected closing parenthesis in function call&quot;</span>):
             parse([<span class="hljs-string">&quot;f&quot;</span>, <span class="hljs-string">&quot;(&quot;</span>, <span class="hljs-string">&quot;x&quot;</span>])
 
     <span class="hljs-keyword">def</span> <span class="hljs-title function_">test_call_fun_need_comma</span>(<span class="hljs-params">self</span>) -&gt; <span class="hljs-literal">None</span>:
-        <span class="hljs-keyword">with</span> self.assert_parse_error(<span class="hljs-string">&quot;Expected closing parenthesis in function call&quot;</span>):
+        <span class="hljs-keyword">with</span> <span class="hljs-variable language_">self</span>.assert_parse_error(<span class="hljs-string">&quot;Expected closing parenthesis in function call&quot;</span>):
             parse([<span class="hljs-string">&quot;f&quot;</span>, <span class="hljs-string">&quot;(&quot;</span>, <span class="hljs-string">&quot;x&quot;</span>, <span class="hljs-string">&quot;y&quot;</span>, <span class="hljs-string">&quot;)&quot;</span>])
 
     <span class="hljs-keyword">def</span> <span class="hljs-title function_">test_call_fun_double_comma</span>(<span class="hljs-params">self</span>) -&gt; <span class="hljs-literal">None</span>:
-        <span class="hljs-keyword">with</span> self.assert_parse_error(<span class="hljs-string">&quot;Unexpected token: ,&quot;</span>):
+        <span class="hljs-keyword">with</span> <span class="hljs-variable language_">self</span>.assert_parse_error(<span class="hljs-string">&quot;Unexpected token: ,&quot;</span>):
             parse([<span class="hljs-string">&quot;f&quot;</span>, <span class="hljs-string">&quot;(&quot;</span>, <span class="hljs-string">&quot;x&quot;</span>, <span class="hljs-string">&quot;,&quot;</span>, <span class="hljs-string">&quot;,&quot;</span>, <span class="hljs-string">&quot;y&quot;</span>, <span class="hljs-string">&quot;)&quot;</span>])
 
     <span class="hljs-keyword">def</span> <span class="hljs-title function_">test_call_fun_more_than_one_argument</span>(<span class="hljs-params">self</span>) -&gt; <span class="hljs-literal">None</span>:
-        self.assertEqual(parse([<span class="hljs-string">&quot;f&quot;</span>, <span class="hljs-string">&quot;(&quot;</span>, <span class="hljs-string">&quot;x&quot;</span>, <span class="hljs-string">&quot;,&quot;</span>, <span class="hljs-string">&quot;y&quot;</span>, <span class="hljs-string">&quot;)&quot;</span>]), [<span class="hljs-string">&quot;f&quot;</span>, <span class="hljs-string">&quot;x&quot;</span>, <span class="hljs-string">&quot;y&quot;</span>])
+        <span class="hljs-variable language_">self</span>.assertEqual(parse([<span class="hljs-string">&quot;f&quot;</span>, <span class="hljs-string">&quot;(&quot;</span>, <span class="hljs-string">&quot;x&quot;</span>, <span class="hljs-string">&quot;,&quot;</span>, <span class="hljs-string">&quot;y&quot;</span>, <span class="hljs-string">&quot;)&quot;</span>]), [<span class="hljs-string">&quot;f&quot;</span>, <span class="hljs-string">&quot;x&quot;</span>, <span class="hljs-string">&quot;y&quot;</span>])
 
     <span class="hljs-keyword">def</span> <span class="hljs-title function_">test_negate_const</span>(<span class="hljs-params">self</span>) -&gt; <span class="hljs-literal">None</span>:
-        <span class="hljs-keyword">with</span> self.assert_parse_error(<span class="hljs-string">&quot;Unexpected end of input&quot;</span>):
+        <span class="hljs-keyword">with</span> <span class="hljs-variable language_">self</span>.assert_parse_error(<span class="hljs-string">&quot;Unexpected end of input&quot;</span>):
             parse([<span class="hljs-string">&quot;-&quot;</span>])
-        self.assertEqual(parse([<span class="hljs-string">&quot;-&quot;</span>, <span class="hljs-number">3</span>]), [<span class="hljs-string">&quot;negate&quot;</span>, <span class="hljs-number">3</span>])
+        <span class="hljs-variable language_">self</span>.assertEqual(parse([<span class="hljs-string">&quot;-&quot;</span>, <span class="hljs-number">3</span>]), [<span class="hljs-string">&quot;negate&quot;</span>, <span class="hljs-number">3</span>])
 
     <span class="hljs-keyword">def</span> <span class="hljs-title function_">test_add</span>(<span class="hljs-params">self</span>) -&gt; <span class="hljs-literal">None</span>:
-        self.assertEqual(parse([<span class="hljs-number">1</span>, <span class="hljs-string">&quot;+&quot;</span>, <span class="hljs-number">2</span>]), [<span class="hljs-string">&quot;+&quot;</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>])
+        <span class="hljs-variable language_">self</span>.assertEqual(parse([<span class="hljs-number">1</span>, <span class="hljs-string">&quot;+&quot;</span>, <span class="hljs-number">2</span>]), [<span class="hljs-string">&quot;+&quot;</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>])
 
     <span class="hljs-keyword">def</span> <span class="hljs-title function_">test_add_negate</span>(<span class="hljs-params">self</span>) -&gt; <span class="hljs-literal">None</span>:
-        self.assertEqual(parse([<span class="hljs-number">1</span>, <span class="hljs-string">&quot;+&quot;</span>, <span class="hljs-string">&quot;-&quot;</span>, <span class="hljs-number">2</span>]), [<span class="hljs-string">&quot;+&quot;</span>, <span class="hljs-number">1</span>, [<span class="hljs-string">&quot;negate&quot;</span>, <span class="hljs-number">2</span>]])
+        <span class="hljs-variable language_">self</span>.assertEqual(parse([<span class="hljs-number">1</span>, <span class="hljs-string">&quot;+&quot;</span>, <span class="hljs-string">&quot;-&quot;</span>, <span class="hljs-number">2</span>]), [<span class="hljs-string">&quot;+&quot;</span>, <span class="hljs-number">1</span>, [<span class="hljs-string">&quot;negate&quot;</span>, <span class="hljs-number">2</span>]])
 
     <span class="hljs-keyword">def</span> <span class="hljs-title function_">test_mul_negate</span>(<span class="hljs-params">self</span>) -&gt; <span class="hljs-literal">None</span>:
-        self.assertEqual(parse([<span class="hljs-number">1</span>, <span class="hljs-string">&quot;*&quot;</span>, <span class="hljs-string">&quot;-&quot;</span>, <span class="hljs-number">2</span>]), [<span class="hljs-string">&quot;*&quot;</span>, <span class="hljs-number">1</span>, [<span class="hljs-string">&quot;negate&quot;</span>, <span class="hljs-number">2</span>]])
+        <span class="hljs-variable language_">self</span>.assertEqual(parse([<span class="hljs-number">1</span>, <span class="hljs-string">&quot;*&quot;</span>, <span class="hljs-string">&quot;-&quot;</span>, <span class="hljs-number">2</span>]), [<span class="hljs-string">&quot;*&quot;</span>, <span class="hljs-number">1</span>, [<span class="hljs-string">&quot;negate&quot;</span>, <span class="hljs-number">2</span>]])
 
     <span class="hljs-keyword">def</span> <span class="hljs-title function_">test_sub_negate</span>(<span class="hljs-params">self</span>) -&gt; <span class="hljs-literal">None</span>:
-        self.assertEqual(parse([<span class="hljs-number">1</span>, <span class="hljs-string">&quot;-&quot;</span>, <span class="hljs-string">&quot;-&quot;</span>, <span class="hljs-number">2</span>]), [<span class="hljs-string">&quot;-&quot;</span>, <span class="hljs-number">1</span>, [<span class="hljs-string">&quot;negate&quot;</span>, <span class="hljs-number">2</span>]])
+        <span class="hljs-variable language_">self</span>.assertEqual(parse([<span class="hljs-number">1</span>, <span class="hljs-string">&quot;-&quot;</span>, <span class="hljs-string">&quot;-&quot;</span>, <span class="hljs-number">2</span>]), [<span class="hljs-string">&quot;-&quot;</span>, <span class="hljs-number">1</span>, [<span class="hljs-string">&quot;negate&quot;</span>, <span class="hljs-number">2</span>]])
 
     <span class="hljs-keyword">def</span> <span class="hljs-title function_">test_begin_add_raises</span>(<span class="hljs-params">self</span>) -&gt; <span class="hljs-literal">None</span>:
-        <span class="hljs-keyword">with</span> self.assert_parse_error(<span class="hljs-string">&quot;Unexpected operator: +&quot;</span>):
+        <span class="hljs-keyword">with</span> <span class="hljs-variable language_">self</span>.assert_parse_error(<span class="hljs-string">&quot;Unexpected operator: +&quot;</span>):
             parse([<span class="hljs-string">&quot;+&quot;</span>])
 
-        <span class="hljs-keyword">with</span> self.assert_parse_error(<span class="hljs-string">&quot;Unexpected operator: +&quot;</span>):
+        <span class="hljs-keyword">with</span> <span class="hljs-variable language_">self</span>.assert_parse_error(<span class="hljs-string">&quot;Unexpected operator: +&quot;</span>):
             parse([<span class="hljs-string">&quot;+&quot;</span>, <span class="hljs-number">2</span>])
 
     <span class="hljs-keyword">def</span> <span class="hljs-title function_">test_double_add_raises</span>(<span class="hljs-params">self</span>) -&gt; <span class="hljs-literal">None</span>:
-        <span class="hljs-keyword">with</span> self.assert_parse_error(<span class="hljs-string">&quot;Unexpected operator: +&quot;</span>):
+        <span class="hljs-keyword">with</span> <span class="hljs-variable language_">self</span>.assert_parse_error(<span class="hljs-string">&quot;Unexpected operator: +&quot;</span>):
             parse([<span class="hljs-number">1</span>, <span class="hljs-string">&quot;+&quot;</span>, <span class="hljs-string">&quot;+&quot;</span>, <span class="hljs-number">2</span>])
 
     <span class="hljs-keyword">def</span> <span class="hljs-title function_">test_add_add</span>(<span class="hljs-params">self</span>) -&gt; <span class="hljs-literal">None</span>:
-        self.assertEqual(parse([<span class="hljs-number">1</span>, <span class="hljs-string">&quot;+&quot;</span>, <span class="hljs-number">2</span>, <span class="hljs-string">&quot;+&quot;</span>, <span class="hljs-number">3</span>]), [<span class="hljs-string">&quot;+&quot;</span>, <span class="hljs-number">1</span>, [<span class="hljs-string">&quot;+&quot;</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>]])
+        <span class="hljs-variable language_">self</span>.assertEqual(parse([<span class="hljs-number">1</span>, <span class="hljs-string">&quot;+&quot;</span>, <span class="hljs-number">2</span>, <span class="hljs-string">&quot;+&quot;</span>, <span class="hljs-number">3</span>]), [<span class="hljs-string">&quot;+&quot;</span>, <span class="hljs-number">1</span>, [<span class="hljs-string">&quot;+&quot;</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>]])
 
     <span class="hljs-keyword">def</span> <span class="hljs-title function_">test_add_mul</span>(<span class="hljs-params">self</span>) -&gt; <span class="hljs-literal">None</span>:
-        self.assertEqual(parse([<span class="hljs-number">1</span>, <span class="hljs-string">&quot;+&quot;</span>, <span class="hljs-number">2</span>, <span class="hljs-string">&quot;*&quot;</span>, <span class="hljs-number">3</span>]), [<span class="hljs-string">&quot;+&quot;</span>, <span class="hljs-number">1</span>, [<span class="hljs-string">&quot;*&quot;</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>]])
-        self.assertEqual(parse([<span class="hljs-string">&quot;(&quot;</span>, <span class="hljs-number">1</span>, <span class="hljs-string">&quot;+&quot;</span>, <span class="hljs-number">2</span>, <span class="hljs-string">&quot;)&quot;</span>, <span class="hljs-string">&quot;*&quot;</span>, <span class="hljs-number">3</span>]), [<span class="hljs-string">&quot;*&quot;</span>, [<span class="hljs-string">&quot;+&quot;</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>], <span class="hljs-number">3</span>])
+        <span class="hljs-variable language_">self</span>.assertEqual(parse([<span class="hljs-number">1</span>, <span class="hljs-string">&quot;+&quot;</span>, <span class="hljs-number">2</span>, <span class="hljs-string">&quot;*&quot;</span>, <span class="hljs-number">3</span>]), [<span class="hljs-string">&quot;+&quot;</span>, <span class="hljs-number">1</span>, [<span class="hljs-string">&quot;*&quot;</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>]])
+        <span class="hljs-variable language_">self</span>.assertEqual(parse([<span class="hljs-string">&quot;(&quot;</span>, <span class="hljs-number">1</span>, <span class="hljs-string">&quot;+&quot;</span>, <span class="hljs-number">2</span>, <span class="hljs-string">&quot;)&quot;</span>, <span class="hljs-string">&quot;*&quot;</span>, <span class="hljs-number">3</span>]), [<span class="hljs-string">&quot;*&quot;</span>, [<span class="hljs-string">&quot;+&quot;</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>], <span class="hljs-number">3</span>])
 
     <span class="hljs-keyword">def</span> <span class="hljs-title function_">test_mul_add</span>(<span class="hljs-params">self</span>) -&gt; <span class="hljs-literal">None</span>:
-        self.assertEqual(parse([<span class="hljs-number">1</span>, <span class="hljs-string">&quot;*&quot;</span>, <span class="hljs-number">2</span>, <span class="hljs-string">&quot;+&quot;</span>, <span class="hljs-number">3</span>]), [<span class="hljs-string">&quot;+&quot;</span>, [<span class="hljs-string">&quot;*&quot;</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>], <span class="hljs-number">3</span>])
+        <span class="hljs-variable language_">self</span>.assertEqual(parse([<span class="hljs-number">1</span>, <span class="hljs-string">&quot;*&quot;</span>, <span class="hljs-number">2</span>, <span class="hljs-string">&quot;+&quot;</span>, <span class="hljs-number">3</span>]), [<span class="hljs-string">&quot;+&quot;</span>, [<span class="hljs-string">&quot;*&quot;</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>], <span class="hljs-number">3</span>])
 
     <span class="hljs-keyword">def</span> <span class="hljs-title function_">test_sub</span>(<span class="hljs-params">self</span>) -&gt; <span class="hljs-literal">None</span>:
-        self.assertEqual(parse([<span class="hljs-number">1</span>, <span class="hljs-string">&quot;-&quot;</span>, <span class="hljs-number">2</span>]), [<span class="hljs-string">&quot;-&quot;</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>])
+        <span class="hljs-variable language_">self</span>.assertEqual(parse([<span class="hljs-number">1</span>, <span class="hljs-string">&quot;-&quot;</span>, <span class="hljs-number">2</span>]), [<span class="hljs-string">&quot;-&quot;</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>])
 
     <span class="hljs-keyword">def</span> <span class="hljs-title function_">test_sub_sub</span>(<span class="hljs-params">self</span>) -&gt; <span class="hljs-literal">None</span>:
-        self.assertEqual(parse([<span class="hljs-number">1</span>, <span class="hljs-string">&quot;-&quot;</span>, <span class="hljs-number">2</span>, <span class="hljs-string">&quot;-&quot;</span>, <span class="hljs-number">3</span>]), [<span class="hljs-string">&quot;-&quot;</span>, [<span class="hljs-string">&quot;-&quot;</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>], <span class="hljs-number">3</span>])
+        <span class="hljs-variable language_">self</span>.assertEqual(parse([<span class="hljs-number">1</span>, <span class="hljs-string">&quot;-&quot;</span>, <span class="hljs-number">2</span>, <span class="hljs-string">&quot;-&quot;</span>, <span class="hljs-number">3</span>]), [<span class="hljs-string">&quot;-&quot;</span>, [<span class="hljs-string">&quot;-&quot;</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>], <span class="hljs-number">3</span>])
 
     <span class="hljs-keyword">def</span> <span class="hljs-title function_">test_add_mul</span>(<span class="hljs-params">self</span>) -&gt; <span class="hljs-literal">None</span>:
-        self.assertEqual(parse([<span class="hljs-number">1</span>, <span class="hljs-string">&quot;+&quot;</span>, <span class="hljs-number">2</span>, <span class="hljs-string">&quot;*&quot;</span>, <span class="hljs-number">3</span>]), [<span class="hljs-string">&quot;+&quot;</span>, <span class="hljs-number">1</span>, [<span class="hljs-string">&quot;*&quot;</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>]])
-        self.assertEqual(parse([<span class="hljs-number">1</span>, <span class="hljs-string">&quot;*&quot;</span>, <span class="hljs-number">2</span>, <span class="hljs-string">&quot;+&quot;</span>, <span class="hljs-number">3</span>]), [<span class="hljs-string">&quot;+&quot;</span>, [<span class="hljs-string">&quot;*&quot;</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>], <span class="hljs-number">3</span>])
+        <span class="hljs-variable language_">self</span>.assertEqual(parse([<span class="hljs-number">1</span>, <span class="hljs-string">&quot;+&quot;</span>, <span class="hljs-number">2</span>, <span class="hljs-string">&quot;*&quot;</span>, <span class="hljs-number">3</span>]), [<span class="hljs-string">&quot;+&quot;</span>, <span class="hljs-number">1</span>, [<span class="hljs-string">&quot;*&quot;</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>]])
+        <span class="hljs-variable language_">self</span>.assertEqual(parse([<span class="hljs-number">1</span>, <span class="hljs-string">&quot;*&quot;</span>, <span class="hljs-number">2</span>, <span class="hljs-string">&quot;+&quot;</span>, <span class="hljs-number">3</span>]), [<span class="hljs-string">&quot;+&quot;</span>, [<span class="hljs-string">&quot;*&quot;</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>], <span class="hljs-number">3</span>])
 
 
 <span class="hljs-keyword">class</span> <span class="hljs-title class_">EndToEndTests</span>(unittest.TestCase):
@@ -812,35 +817,35 @@ lines but are illustrative.</p>
         <span class="hljs-keyword">return</span> parse(tokenize(source))
 
     <span class="hljs-keyword">def</span> <span class="hljs-title function_">test_int</span>(<span class="hljs-params">self</span>):
-        self.assertEqual(self.parse(<span class="hljs-string">&quot;123&quot;</span>), <span class="hljs-number">123</span>)
+        <span class="hljs-variable language_">self</span>.assertEqual(<span class="hljs-variable language_">self</span>.parse(<span class="hljs-string">&quot;123&quot;</span>), <span class="hljs-number">123</span>)
 
     <span class="hljs-keyword">def</span> <span class="hljs-title function_">test_add</span>(<span class="hljs-params">self</span>):
-        self.assertEqual(self.parse(<span class="hljs-string">&quot;3+4&quot;</span>), [<span class="hljs-string">&quot;+&quot;</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>])
+        <span class="hljs-variable language_">self</span>.assertEqual(<span class="hljs-variable language_">self</span>.parse(<span class="hljs-string">&quot;3+4&quot;</span>), [<span class="hljs-string">&quot;+&quot;</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>])
 
     <span class="hljs-keyword">def</span> <span class="hljs-title function_">test_add_call</span>(<span class="hljs-params">self</span>):
-        self.assertEqual(self.parse(<span class="hljs-string">&quot;1+f(2)*3&quot;</span>), [<span class="hljs-string">&quot;+&quot;</span>, <span class="hljs-number">1</span>, [<span class="hljs-string">&quot;*&quot;</span>, [<span class="hljs-string">&quot;f&quot;</span>, <span class="hljs-number">2</span>], <span class="hljs-number">3</span>]])
-        self.assertEqual(self.parse(<span class="hljs-string">&quot;1*f(2)+3&quot;</span>), [<span class="hljs-string">&quot;+&quot;</span>, [<span class="hljs-string">&quot;*&quot;</span>, <span class="hljs-number">1</span>, [<span class="hljs-string">&quot;f&quot;</span>, <span class="hljs-number">2</span>]], <span class="hljs-number">3</span>])
+        <span class="hljs-variable language_">self</span>.assertEqual(<span class="hljs-variable language_">self</span>.parse(<span class="hljs-string">&quot;1+f(2)*3&quot;</span>), [<span class="hljs-string">&quot;+&quot;</span>, <span class="hljs-number">1</span>, [<span class="hljs-string">&quot;*&quot;</span>, [<span class="hljs-string">&quot;f&quot;</span>, <span class="hljs-number">2</span>], <span class="hljs-number">3</span>]])
+        <span class="hljs-variable language_">self</span>.assertEqual(<span class="hljs-variable language_">self</span>.parse(<span class="hljs-string">&quot;1*f(2)+3&quot;</span>), [<span class="hljs-string">&quot;+&quot;</span>, [<span class="hljs-string">&quot;*&quot;</span>, <span class="hljs-number">1</span>, [<span class="hljs-string">&quot;f&quot;</span>, <span class="hljs-number">2</span>]], <span class="hljs-number">3</span>])
 
     <span class="hljs-keyword">def</span> <span class="hljs-title function_">test_call_call</span>(<span class="hljs-params">self</span>):
-        self.assertEqual(self.parse(<span class="hljs-string">&quot;f(1)(2)&quot;</span>), [[<span class="hljs-string">&quot;f&quot;</span>, <span class="hljs-number">1</span>], <span class="hljs-number">2</span>])
+        <span class="hljs-variable language_">self</span>.assertEqual(<span class="hljs-variable language_">self</span>.parse(<span class="hljs-string">&quot;f(1)(2)&quot;</span>), [[<span class="hljs-string">&quot;f&quot;</span>, <span class="hljs-number">1</span>], <span class="hljs-number">2</span>])
 
     <span class="hljs-keyword">def</span> <span class="hljs-title function_">test_call0</span>(<span class="hljs-params">self</span>):
-        self.assertEqual(self.parse(<span class="hljs-string">&quot;f()&quot;</span>), [<span class="hljs-string">&quot;f&quot;</span>])
+        <span class="hljs-variable language_">self</span>.assertEqual(<span class="hljs-variable language_">self</span>.parse(<span class="hljs-string">&quot;f()&quot;</span>), [<span class="hljs-string">&quot;f&quot;</span>])
 
     <span class="hljs-keyword">def</span> <span class="hljs-title function_">test_call1</span>(<span class="hljs-params">self</span>):
-        self.assertEqual(self.parse(<span class="hljs-string">&quot;f(x)&quot;</span>), [<span class="hljs-string">&quot;f&quot;</span>, <span class="hljs-string">&quot;x&quot;</span>])
+        <span class="hljs-variable language_">self</span>.assertEqual(<span class="hljs-variable language_">self</span>.parse(<span class="hljs-string">&quot;f(x)&quot;</span>), [<span class="hljs-string">&quot;f&quot;</span>, <span class="hljs-string">&quot;x&quot;</span>])
 
     <span class="hljs-keyword">def</span> <span class="hljs-title function_">test_call2</span>(<span class="hljs-params">self</span>):
-        self.assertEqual(self.parse(<span class="hljs-string">&quot;f(x, y)&quot;</span>), [<span class="hljs-string">&quot;f&quot;</span>, <span class="hljs-string">&quot;x&quot;</span>, <span class="hljs-string">&quot;y&quot;</span>])
+        <span class="hljs-variable language_">self</span>.assertEqual(<span class="hljs-variable language_">self</span>.parse(<span class="hljs-string">&quot;f(x, y)&quot;</span>), [<span class="hljs-string">&quot;f&quot;</span>, <span class="hljs-string">&quot;x&quot;</span>, <span class="hljs-string">&quot;y&quot;</span>])
 
     <span class="hljs-keyword">def</span> <span class="hljs-title function_">test_call3</span>(<span class="hljs-params">self</span>):
-        self.assertEqual(self.parse(<span class="hljs-string">&quot;f(x, y, z)&quot;</span>), [<span class="hljs-string">&quot;f&quot;</span>, <span class="hljs-string">&quot;x&quot;</span>, <span class="hljs-string">&quot;y&quot;</span>, <span class="hljs-string">&quot;z&quot;</span>])
+        <span class="hljs-variable language_">self</span>.assertEqual(<span class="hljs-variable language_">self</span>.parse(<span class="hljs-string">&quot;f(x, y, z)&quot;</span>), [<span class="hljs-string">&quot;f&quot;</span>, <span class="hljs-string">&quot;x&quot;</span>, <span class="hljs-string">&quot;y&quot;</span>, <span class="hljs-string">&quot;z&quot;</span>])
 
     <span class="hljs-keyword">def</span> <span class="hljs-title function_">test_call_expression_argument</span>(<span class="hljs-params">self</span>):
-        self.assertEqual(self.parse(<span class="hljs-string">&quot;f(1+2, 3*4)&quot;</span>), [<span class="hljs-string">&quot;f&quot;</span>, [<span class="hljs-string">&quot;+&quot;</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>], [<span class="hljs-string">&quot;*&quot;</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>]])
+        <span class="hljs-variable language_">self</span>.assertEqual(<span class="hljs-variable language_">self</span>.parse(<span class="hljs-string">&quot;f(1+2, 3*4)&quot;</span>), [<span class="hljs-string">&quot;f&quot;</span>, [<span class="hljs-string">&quot;+&quot;</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>], [<span class="hljs-string">&quot;*&quot;</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>]])
 
     <span class="hljs-keyword">def</span> <span class="hljs-title function_">test_call_nested</span>(<span class="hljs-params">self</span>):
-        self.assertEqual(self.parse(<span class="hljs-string">&quot;f(g(x), h(y))&quot;</span>), [<span class="hljs-string">&quot;f&quot;</span>, [<span class="hljs-string">&quot;g&quot;</span>, <span class="hljs-string">&quot;x&quot;</span>], [<span class="hljs-string">&quot;h&quot;</span>, <span class="hljs-string">&quot;y&quot;</span>]])
+        <span class="hljs-variable language_">self</span>.assertEqual(<span class="hljs-variable language_">self</span>.parse(<span class="hljs-string">&quot;f(g(x), h(y))&quot;</span>), [<span class="hljs-string">&quot;f&quot;</span>, [<span class="hljs-string">&quot;g&quot;</span>, <span class="hljs-string">&quot;x&quot;</span>], [<span class="hljs-string">&quot;h&quot;</span>, <span class="hljs-string">&quot;y&quot;</span>]])
 
 
 <span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:
