@@ -20,8 +20,6 @@
 -- This parser has been extracted and simplified from Abhinav's blog post
 -- [JSON Parsing from Scratch in Haskell](https://abhinavsarkar.net/posts/json-parsing-from-scratch-in-haskell/).
 -- -----------------
-{-# LANGUAGE LambdaCase, TupleSections #-}
-
 module JSONParser where
 
 import Control.Applicative (Alternative (..), optional)
@@ -83,7 +81,7 @@ instance Monad (Parser i) where
 -- A parser that succeeds if the first element of its input list matches the given predicate.
 -- Returns the matching element on success.
 satisfy :: (a -> Bool) -> Parser [a] a
-satisfy predicate = Parser $ \case
+satisfy predicate = Parser $ \input -> case input of
   (x : xs) | predicate x -> Just (xs, x)
   _ -> Nothing
 
@@ -196,7 +194,7 @@ jNumber = jIntFracExp <|> jIntExp <|> jIntFrac <|> jInt
     signInt (Just '-') i = negate i
     signInt _ i = i
 
--- Some handy parser combinators
+-- Some handy parser combinators.
 surroundedBy :: Parser i a -> Parser i b -> Parser i a
 surroundedBy p1 p2 = p2 *> p1 <* p2
 
@@ -214,14 +212,14 @@ spaces = many (char ' ' <|> char '\n' <|> char '\r' <|> char '\t')
 -- The parser for JSON arrays, containing zero or more items of any JSON types separated by commas.
 jArray :: Parser String JValue
 jArray = fmap JArray
-  . between (char '[') (char ']')
+  $ between (char '[') (char ']')
   $ jValue `separatedBy` char ',' `surroundedBy` spaces
 
 -- The parser for JSON objects, containing  zero or more key-value pairs separated by colon, where
 -- keys are JSON strings, and values are any JSON types.
 jObject :: Parser String JValue
 jObject = fmap JObject
-  . between (char '{') ( char '}')
+  $ between (char '{') ( char '}')
   $ pair `separatedBy` char ',' `surroundedBy` spaces
   where
     pair =

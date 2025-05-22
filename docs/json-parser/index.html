@@ -93,9 +93,7 @@ style.</p>
               
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-meta">{-# LANGUAGE LambdaCase, TupleSections #-}</span>
-
-<span class="hljs-keyword">module</span> JSONParser <span class="hljs-keyword">where</span>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">module</span> JSONParser <span class="hljs-keyword">where</span>
 
 <span class="hljs-keyword">import</span> Control.Applicative (<span class="hljs-type">Alternative</span> (..), optional)
 <span class="hljs-keyword">import</span> Control.Monad (<span class="hljs-title">replicateM</span>)
@@ -318,7 +316,7 @@ Returns the matching element on success.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-title">satisfy</span> :: (a -&gt; <span class="hljs-type">Bool</span>) -&gt; <span class="hljs-type">Parser</span> [a] a
-<span class="hljs-title">satisfy</span> predicate = <span class="hljs-type">Parser</span> $ \<span class="hljs-keyword">case</span>
+<span class="hljs-title">satisfy</span> predicate = <span class="hljs-type">Parser</span> $ \input -&gt; <span class="hljs-keyword">case</span> input <span class="hljs-keyword">of</span>
   (x : xs) | predicate x -&gt; <span class="hljs-type">Just</span> (xs, x)
   _ -&gt; <span class="hljs-type">Nothing</span></pre></div></div>
             
@@ -536,7 +534,7 @@ for characters defined in the JSON spec, and Unicode characters with <code>\u</c
               <div class="sswrap ">
                 <a class="ss" href="#section-24">&#x00a7;</a>
               </div>
-              <p>Some handy parser combinators</p>
+              <p>Some handy parser combinators.</p>
 
             </div>
             
@@ -569,7 +567,7 @@ for characters defined in the JSON spec, and Unicode characters with <code>\u</c
             
             <div class="content"><div class='highlight'><pre><span class="hljs-title">jArray</span> :: <span class="hljs-type">Parser</span> <span class="hljs-type">String</span> <span class="hljs-type">JValue</span>
 <span class="hljs-title">jArray</span> = fmap <span class="hljs-type">JArray</span>
-  . between (char <span class="hljs-string">&#x27;[&#x27;</span>) (char <span class="hljs-string">&#x27;]&#x27;</span>)
+  $ between (char <span class="hljs-string">&#x27;[&#x27;</span>) (char <span class="hljs-string">&#x27;]&#x27;</span>)
   $ jValue `separatedBy` char <span class="hljs-string">&#x27;,&#x27;</span> `surroundedBy` spaces</pre></div></div>
             
         </li>
@@ -588,7 +586,7 @@ keys are JSON strings, and values are any JSON types.</p>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-title">jObject</span> :: <span class="hljs-type">Parser</span> <span class="hljs-type">String</span> <span class="hljs-type">JValue</span>
 <span class="hljs-title">jObject</span> = fmap <span class="hljs-type">JObject</span>
-  . between (char <span class="hljs-string">&#x27;{&#x27;</span>) ( char <span class="hljs-string">&#x27;}&#x27;</span>)
+  $ between (char <span class="hljs-string">&#x27;{&#x27;</span>) ( char <span class="hljs-string">&#x27;}&#x27;</span>)
   $ pair `separatedBy` char <span class="hljs-string">&#x27;,&#x27;</span> `surroundedBy` spaces
   <span class="hljs-keyword">where</span>
     pair =
