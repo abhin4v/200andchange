@@ -93,13 +93,14 @@ style.</p>
               
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-meta">{-# LANGUAGE TupleSections, LambdaCase #-}</span>
+            <div class="content"><div class='highlight'><pre><span class="hljs-meta">{-# LANGUAGE LambdaCase, TupleSections #-}</span>
+
 <span class="hljs-keyword">module</span> JSONParser <span class="hljs-keyword">where</span>
 
-<span class="hljs-keyword">import</span> Control.Applicative (<span class="hljs-type">Alternative(..)</span>, <span class="hljs-title">optional</span>)
+<span class="hljs-keyword">import</span> Control.Applicative (<span class="hljs-type">Alternative</span> (..), optional)
 <span class="hljs-keyword">import</span> Control.Monad (<span class="hljs-title">replicateM</span>)
 <span class="hljs-keyword">import</span> Data.Bits (<span class="hljs-title">shiftL</span>)
-<span class="hljs-keyword">import</span> Data.Char (<span class="hljs-title">isDigit</span>, <span class="hljs-title">isHexDigit</span>, <span class="hljs-title">chr</span>, <span class="hljs-title">ord</span>, <span class="hljs-title">digitToInt</span>)
+<span class="hljs-keyword">import</span> Data.Char (<span class="hljs-title">chr</span>, <span class="hljs-title">digitToInt</span>, <span class="hljs-title">isDigit</span>, <span class="hljs-title">isHexDigit</span>, <span class="hljs-title">ord</span>)
 <span class="hljs-keyword">import</span> Data.Functor (($&gt;))
 <span class="hljs-keyword">import</span> System.Exit (<span class="hljs-title">exitFailure</span>)</pre></div></div>
             
@@ -116,7 +117,8 @@ style.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-class"><span class="hljs-keyword">data</span> <span class="hljs-type">JValue</span> =</span></pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-class"><span class="hljs-keyword">data</span> <span class="hljs-type">JValue</span></span>
+  =</pre></div></div>
             
         </li>
         
@@ -131,7 +133,7 @@ style.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>              <span class="hljs-type">JNull</span></pre></div></div>
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-type">JNull</span></pre></div></div>
             
         </li>
         
@@ -146,7 +148,7 @@ style.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>            | <span class="hljs-type">JBool</span> <span class="hljs-type">Bool</span></pre></div></div>
+            <div class="content"><div class='highlight'><pre>  | <span class="hljs-type">JBool</span> <span class="hljs-type">Bool</span></pre></div></div>
             
         </li>
         
@@ -161,7 +163,7 @@ style.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>            | <span class="hljs-type">JString</span> <span class="hljs-type">String</span></pre></div></div>
+            <div class="content"><div class='highlight'><pre>  | <span class="hljs-type">JString</span> <span class="hljs-type">String</span></pre></div></div>
             
         </li>
         
@@ -176,7 +178,7 @@ style.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>            | <span class="hljs-type">JNumber</span> { int :: <span class="hljs-type">Integer</span>, frac :: [<span class="hljs-type">Int</span>], exponent :: <span class="hljs-type">Integer</span> }</pre></div></div>
+            <div class="content"><div class='highlight'><pre>  | <span class="hljs-type">JNumber</span> {int :: <span class="hljs-type">Integer</span>, frac :: [<span class="hljs-type">Int</span>], exponent :: <span class="hljs-type">Integer</span>}</pre></div></div>
             
         </li>
         
@@ -191,7 +193,7 @@ style.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>            | <span class="hljs-type">JArray</span> [<span class="hljs-type">JValue</span>]</pre></div></div>
+            <div class="content"><div class='highlight'><pre>  | <span class="hljs-type">JArray</span> [<span class="hljs-type">JValue</span>]</pre></div></div>
             
         </li>
         
@@ -206,8 +208,8 @@ style.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>            | <span class="hljs-type">JObject</span> [(<span class="hljs-type">String</span>, <span class="hljs-type">JValue</span>)]
-            <span class="hljs-keyword">deriving</span> (<span class="hljs-type">Eq</span>)</pre></div></div>
+            <div class="content"><div class='highlight'><pre>  | <span class="hljs-type">JObject</span> [(<span class="hljs-type">String</span>, <span class="hljs-type">JValue</span>)]
+  <span class="hljs-keyword">deriving</span> (<span class="hljs-type">Eq</span>)</pre></div></div>
             
         </li>
         
@@ -223,8 +225,7 @@ relevant data structure <code>o</code> and the rest of the input <code>i</code> 
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-class"><span class="hljs-keyword">newtype</span> <span class="hljs-type">Parser</span> i o =</span>
-  <span class="hljs-type">Parser</span> { runParser :: i -&gt; <span class="hljs-type">Maybe</span> (i, o) }</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-class"><span class="hljs-keyword">newtype</span> <span class="hljs-type">Parser</span> i o = <span class="hljs-type">Parser</span> {<span class="hljs-title">runParser</span> :: <span class="hljs-title">i</span> -&gt; <span class="hljs-type">Maybe</span> (<span class="hljs-title">i</span>, <span class="hljs-title">o</span>)}</span></pre></div></div>
             
         </li>
         
@@ -259,9 +260,9 @@ This allows us to combine the results of two parsers that are independent of eac
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-class"><span class="hljs-keyword">instance</span> <span class="hljs-type">Applicative</span> (<span class="hljs-type">Parser</span> <span class="hljs-title">i</span>) <span class="hljs-keyword">where</span></span>
-  pure x    = <span class="hljs-type">Parser</span> $ pure . (, x)
+  pure x = <span class="hljs-type">Parser</span> $ pure . (,x)
   pf &lt;*&gt; po = <span class="hljs-type">Parser</span> $ \input -&gt; <span class="hljs-keyword">case</span> runParser pf input <span class="hljs-keyword">of</span>
-    <span class="hljs-type">Nothing</span>        -&gt; <span class="hljs-type">Nothing</span>
+    <span class="hljs-type">Nothing</span> -&gt; <span class="hljs-type">Nothing</span>
     <span class="hljs-type">Just</span> (rest, f) -&gt; fmap f &lt;$&gt; runParser po rest</pre></div></div>
             
         </li>
@@ -299,7 +300,7 @@ dependent on the result of other.</p>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-class"><span class="hljs-keyword">instance</span> <span class="hljs-type">Monad</span> (<span class="hljs-type">Parser</span> <span class="hljs-title">i</span>) <span class="hljs-keyword">where</span></span>
   p &gt;&gt;= f = <span class="hljs-type">Parser</span> $ \input -&gt; <span class="hljs-keyword">case</span> runParser p input <span class="hljs-keyword">of</span>
-    <span class="hljs-type">Nothing</span>        -&gt; <span class="hljs-type">Nothing</span>
+    <span class="hljs-type">Nothing</span> -&gt; <span class="hljs-type">Nothing</span>
     <span class="hljs-type">Just</span> (rest, o) -&gt; runParser (f o) rest</pre></div></div>
             
         </li>
@@ -318,8 +319,8 @@ Returns the matching element on success.</p>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-title">satisfy</span> :: (a -&gt; <span class="hljs-type">Bool</span>) -&gt; <span class="hljs-type">Parser</span> [a] a
 <span class="hljs-title">satisfy</span> predicate = <span class="hljs-type">Parser</span> $ \<span class="hljs-keyword">case</span>
-  (x:xs) | predicate x -&gt; <span class="hljs-type">Just</span> (xs, x)
-  _                    -&gt; <span class="hljs-type">Nothing</span></pre></div></div>
+  (x : xs) | predicate x -&gt; <span class="hljs-type">Just</span> (xs, x)
+  _ -&gt; <span class="hljs-type">Nothing</span></pre></div></div>
             
         </li>
         
@@ -367,8 +368,8 @@ Returns the matching element on success.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-title">string</span> :: <span class="hljs-type">String</span> -&gt; <span class="hljs-type">Parser</span> <span class="hljs-type">String</span> <span class="hljs-type">String</span>
-<span class="hljs-title">string</span> <span class="hljs-string">&quot;&quot;</span>     = pure <span class="hljs-string">&quot;&quot;</span>
-<span class="hljs-title">string</span> (c:cs) = (:) &lt;$&gt; char c &lt;*&gt; string cs</pre></div></div>
+<span class="hljs-title">string</span> <span class="hljs-string">&quot;&quot;</span> = pure <span class="hljs-string">&quot;&quot;</span>
+<span class="hljs-title">string</span> (c : cs) = (:) &lt;$&gt; char c &lt;*&gt; string cs</pre></div></div>
             
         </li>
         
@@ -402,8 +403,9 @@ corresponding <code>JBool</code> value on success.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-title">jBool</span> :: <span class="hljs-type">Parser</span> <span class="hljs-type">String</span> <span class="hljs-type">JValue</span>
-<span class="hljs-title">jBool</span> =   string <span class="hljs-string">&quot;true&quot;</span>  $&gt; <span class="hljs-type">JBool</span> <span class="hljs-type">True</span>
-      &lt;|&gt; string <span class="hljs-string">&quot;false&quot;</span> $&gt; <span class="hljs-type">JBool</span> <span class="hljs-type">False</span></pre></div></div>
+<span class="hljs-title">jBool</span> =
+  string <span class="hljs-string">&quot;true&quot;</span> $&gt; <span class="hljs-type">JBool</span> <span class="hljs-type">True</span>
+  &lt;|&gt; string <span class="hljs-string">&quot;false&quot;</span> $&gt; <span class="hljs-type">JBool</span> <span class="hljs-type">False</span></pre></div></div>
             
         </li>
         
@@ -420,16 +422,17 @@ for characters defined in the JSON spec, and Unicode characters with <code>\u</c
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-title">jsonChar</span> :: <span class="hljs-type">Parser</span> <span class="hljs-type">String</span> <span class="hljs-type">Char</span>
-<span class="hljs-title">jsonChar</span> =   string <span class="hljs-string">&quot;\\\&quot;&quot;</span> $&gt; <span class="hljs-string">&#x27;&quot;&#x27;</span>
-         &lt;|&gt; string <span class="hljs-string">&quot;\\\\&quot;</span> $&gt; <span class="hljs-string">&#x27;<span class="hljs-char escape_">\\</span>&#x27;</span>
-         &lt;|&gt; string <span class="hljs-string">&quot;\\/&quot;</span>  $&gt; <span class="hljs-string">&#x27;/&#x27;</span>
-         &lt;|&gt; string <span class="hljs-string">&quot;\\b&quot;</span>  $&gt; <span class="hljs-string">&#x27;<span class="hljs-char escape_">\b</span>&#x27;</span>
-         &lt;|&gt; string <span class="hljs-string">&quot;\\f&quot;</span>  $&gt; <span class="hljs-string">&#x27;<span class="hljs-char escape_">\f</span>&#x27;</span>
-         &lt;|&gt; string <span class="hljs-string">&quot;\\n&quot;</span>  $&gt; <span class="hljs-string">&#x27;<span class="hljs-char escape_">\n</span>&#x27;</span>
-         &lt;|&gt; string <span class="hljs-string">&quot;\\r&quot;</span>  $&gt; <span class="hljs-string">&#x27;<span class="hljs-char escape_">\r</span>&#x27;</span>
-         &lt;|&gt; string <span class="hljs-string">&quot;\\t&quot;</span>  $&gt; <span class="hljs-string">&#x27;<span class="hljs-char escape_">\t</span>&#x27;</span>
-         &lt;|&gt; unicodeChar
-         &lt;|&gt; satisfy (\c -&gt; not (c == <span class="hljs-string">&#x27;<span class="hljs-char escape_">\&quot;</span>&#x27;</span> || c == <span class="hljs-string">&#x27;<span class="hljs-char escape_">\\</span>&#x27;</span> || isControl c))
+<span class="hljs-title">jsonChar</span> =
+  string <span class="hljs-string">&quot;\\\&quot;&quot;</span> $&gt; <span class="hljs-string">&#x27;&quot;&#x27;</span>
+  &lt;|&gt; string <span class="hljs-string">&quot;\\\\&quot;</span> $&gt; <span class="hljs-string">&#x27;<span class="hljs-char escape_">\\</span>&#x27;</span>
+  &lt;|&gt; string <span class="hljs-string">&quot;\\/&quot;</span> $&gt; <span class="hljs-string">&#x27;/&#x27;</span>
+  &lt;|&gt; string <span class="hljs-string">&quot;\\b&quot;</span> $&gt; <span class="hljs-string">&#x27;<span class="hljs-char escape_">\b</span>&#x27;</span>
+  &lt;|&gt; string <span class="hljs-string">&quot;\\f&quot;</span> $&gt; <span class="hljs-string">&#x27;<span class="hljs-char escape_">\f</span>&#x27;</span>
+  &lt;|&gt; string <span class="hljs-string">&quot;\\n&quot;</span> $&gt; <span class="hljs-string">&#x27;<span class="hljs-char escape_">\n</span>&#x27;</span>
+  &lt;|&gt; string <span class="hljs-string">&quot;\\r&quot;</span> $&gt; <span class="hljs-string">&#x27;<span class="hljs-char escape_">\r</span>&#x27;</span>
+  &lt;|&gt; string <span class="hljs-string">&quot;\\t&quot;</span> $&gt; <span class="hljs-string">&#x27;<span class="hljs-char escape_">\t</span>&#x27;</span>
+  &lt;|&gt; unicodeChar
+  &lt;|&gt; satisfy (\c -&gt; not (c == <span class="hljs-string">&#x27;<span class="hljs-char escape_">\&quot;</span>&#x27;</span> || c == <span class="hljs-string">&#x27;<span class="hljs-char escape_">\\</span>&#x27;</span> || isControl c))
   <span class="hljs-keyword">where</span>
     unicodeChar =
       chr . fromIntegral . digitsToNumber <span class="hljs-number">16</span> <span class="hljs-number">0</span>
@@ -462,29 +465,30 @@ for characters defined in the JSON spec, and Unicode characters with <code>\u</c
     jString&#x27; = <span class="hljs-keyword">do</span>
       optFirst &lt;- optional jsonChar
       <span class="hljs-keyword">case</span> optFirst <span class="hljs-keyword">of</span>
-        <span class="hljs-type">Nothing</span> -&gt; <span class="hljs-string">&quot;&quot;</span> &lt;$ char <span class="hljs-string">&#x27;&quot;&#x27;</span>
-        <span class="hljs-type">Just</span> first | not (isSurrogate first) -&gt;
-          (first:) &lt;$&gt; jString&#x27;
+        <span class="hljs-type">Nothing</span> -&gt; char <span class="hljs-string">&#x27;&quot;&#x27;</span> $&gt; <span class="hljs-string">&quot;&quot;</span>
+        <span class="hljs-type">Just</span> first | not (isSurrogate first) -&gt; (first :) &lt;$&gt; jString&#x27;
         <span class="hljs-type">Just</span> first -&gt; <span class="hljs-keyword">do</span>
           second &lt;- jsonChar
           <span class="hljs-keyword">if</span> isHighSurrogate first &amp;&amp; isLowSurrogate second
-          <span class="hljs-keyword">then</span> (combineSurrogates first second :) &lt;$&gt; jString&#x27;
-          <span class="hljs-keyword">else</span> empty
+            <span class="hljs-keyword">then</span> (combineSurrogates first second :) &lt;$&gt; jString&#x27;
+            <span class="hljs-keyword">else</span> empty
 
     isHighSurrogate a =
       ord a &gt;= highSurrogateLowerBound &amp;&amp; ord a &lt;= highSurrogateUpperBound
-    isLowSurrogate a  =
+    isLowSurrogate a =
       ord a &gt;= lowSurrogateLowerBound &amp;&amp; ord a &lt;= lowSurrogateUpperBound
-    isSurrogate a     = isHighSurrogate a || isLowSurrogate a
+    isSurrogate a = isHighSurrogate a || isLowSurrogate a
 
-    combineSurrogates a b = chr $
-      ((ord a - highSurrogateLowerBound) `shiftL` <span class="hljs-number">10</span>)
-      + (ord b - lowSurrogateLowerBound) + <span class="hljs-number">0x10000</span>
+    combineSurrogates a b =
+      chr $
+        ((ord a - highSurrogateLowerBound) `shiftL` <span class="hljs-number">10</span>)
+          + (ord b - lowSurrogateLowerBound)
+          + <span class="hljs-number">0x10000</span>
 
     highSurrogateLowerBound = <span class="hljs-number">0xD800</span>
     highSurrogateUpperBound = <span class="hljs-number">0xDBFF</span>
-    lowSurrogateLowerBound  = <span class="hljs-number">0xDC00</span>
-    lowSurrogateUpperBound  = <span class="hljs-number">0xDFFF</span></pre></div></div>
+    lowSurrogateLowerBound = <span class="hljs-number">0xDC00</span>
+    lowSurrogateUpperBound = <span class="hljs-number">0xDFFF</span></pre></div></div>
             
         </li>
         
@@ -508,29 +512,20 @@ for characters defined in the JSON spec, and Unicode characters with <code>\u</c
     jIntFracExp = (\ ~(<span class="hljs-type">JNumber</span> i f _) e -&gt; <span class="hljs-type">JNumber</span> i f e) &lt;$&gt; jIntFrac &lt;*&gt; jExp
 
     jInt&#x27; = signInt &lt;$&gt; optional (char <span class="hljs-string">&#x27;-&#x27;</span>) &lt;*&gt; jUInt
-    jUInt =   (\d ds -&gt; digitsToNumber <span class="hljs-number">10</span> <span class="hljs-number">0</span> (d:ds)) &lt;$&gt; digit19 &lt;*&gt; digits
-          &lt;|&gt; fromIntegral &lt;$&gt; digit
+    jUInt =
+      (\d ds -&gt; digitsToNumber <span class="hljs-number">10</span> <span class="hljs-number">0</span> (d : ds)) &lt;$&gt; digit19 &lt;*&gt; digits
+      &lt;|&gt; fromIntegral &lt;$&gt; digit
 
     jFrac = char <span class="hljs-string">&#x27;.&#x27;</span> *&gt; digits
-    jExp = (char <span class="hljs-string">&#x27;e&#x27;</span> &lt;|&gt; char <span class="hljs-string">&#x27;E&#x27;</span>)
-      *&gt; (signInt &lt;$&gt; optional (char <span class="hljs-string">&#x27;+&#x27;</span> &lt;|&gt; char <span class="hljs-string">&#x27;-&#x27;</span>) &lt;*&gt; jUInt)
+    jExp =
+      (char <span class="hljs-string">&#x27;e&#x27;</span> &lt;|&gt; char <span class="hljs-string">&#x27;E&#x27;</span>)
+        *&gt; (signInt &lt;$&gt; optional (char <span class="hljs-string">&#x27;+&#x27;</span> &lt;|&gt; char <span class="hljs-string">&#x27;-&#x27;</span>) &lt;*&gt; jUInt)
 
     digit19 = digitToInt &lt;$&gt; satisfy (\x -&gt; isDigit x &amp;&amp; x /= <span class="hljs-string">&#x27;0&#x27;</span>)
     digits = some digit
 
     signInt (<span class="hljs-type">Just</span> <span class="hljs-string">&#x27;-&#x27;</span>) i = negate i
-    signInt _          i = i
-
-<span class="hljs-title">surroundedBy</span> ::
-  <span class="hljs-type">Parser</span> <span class="hljs-type">String</span> a -&gt; <span class="hljs-type">Parser</span> <span class="hljs-type">String</span> b -&gt; <span class="hljs-type">Parser</span> <span class="hljs-type">String</span> a
-<span class="hljs-title">surroundedBy</span> p1 p2 = p2 *&gt; p1 &lt;* p2
-
-<span class="hljs-title">separatedBy</span> :: <span class="hljs-type">Parser</span> i v -&gt; <span class="hljs-type">Parser</span> i s -&gt; <span class="hljs-type">Parser</span> i [v]
-<span class="hljs-title">separatedBy</span> v s =   (:) &lt;$&gt; v &lt;*&gt; many (s *&gt; v)
-                &lt;|&gt; pure []
-
-<span class="hljs-title">spaces</span> :: <span class="hljs-type">Parser</span> <span class="hljs-type">String</span> <span class="hljs-type">String</span>
-<span class="hljs-title">spaces</span> = many (char <span class="hljs-string">&#x27; &#x27;</span> &lt;|&gt; char <span class="hljs-string">&#x27;<span class="hljs-char escape_">\n</span>&#x27;</span> &lt;|&gt; char <span class="hljs-string">&#x27;<span class="hljs-char escape_">\r</span>&#x27;</span> &lt;|&gt; char <span class="hljs-string">&#x27;<span class="hljs-char escape_">\t</span>&#x27;</span>)</pre></div></div>
+    signInt _ i = i</pre></div></div>
             
         </li>
         
@@ -541,15 +536,23 @@ for characters defined in the JSON spec, and Unicode characters with <code>\u</c
               <div class="sswrap ">
                 <a class="ss" href="#section-24">&#x00a7;</a>
               </div>
-              <p>The parser for JSON arrays, containing zero or more items of any JSON types separated by commas.</p>
+              <p>Some handy parser combinators</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-title">jArray</span> :: <span class="hljs-type">Parser</span> <span class="hljs-type">String</span> <span class="hljs-type">JValue</span>
-<span class="hljs-title">jArray</span> = <span class="hljs-type">JArray</span> &lt;$&gt;
-  (char <span class="hljs-string">&#x27;[&#x27;</span>
-   *&gt; (jValue `separatedBy` char <span class="hljs-string">&#x27;,&#x27;</span> `surroundedBy` spaces)
-   &lt;* char <span class="hljs-string">&#x27;]&#x27;</span>)</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-title">surroundedBy</span> :: <span class="hljs-type">Parser</span> i a -&gt; <span class="hljs-type">Parser</span> i b -&gt; <span class="hljs-type">Parser</span> i a
+<span class="hljs-title">surroundedBy</span> p1 p2 = p2 *&gt; p1 &lt;* p2
+
+<span class="hljs-title">separatedBy</span> :: <span class="hljs-type">Parser</span> i v -&gt; <span class="hljs-type">Parser</span> i s -&gt; <span class="hljs-type">Parser</span> i [v]
+<span class="hljs-title">separatedBy</span> v s =
+  (:) &lt;$&gt; v &lt;*&gt; many (s *&gt; v)
+  &lt;|&gt; pure []
+
+<span class="hljs-title">between</span> :: <span class="hljs-type">Parser</span> i a -&gt; <span class="hljs-type">Parser</span> i a -&gt; <span class="hljs-type">Parser</span> i b -&gt; <span class="hljs-type">Parser</span> i b
+<span class="hljs-title">between</span> pl pr p = pl *&gt; p &lt;* pr
+
+<span class="hljs-title">spaces</span> :: <span class="hljs-type">Parser</span> <span class="hljs-type">String</span> <span class="hljs-type">String</span>
+<span class="hljs-title">spaces</span> = many (char <span class="hljs-string">&#x27; &#x27;</span> &lt;|&gt; char <span class="hljs-string">&#x27;<span class="hljs-char escape_">\n</span>&#x27;</span> &lt;|&gt; char <span class="hljs-string">&#x27;<span class="hljs-char escape_">\r</span>&#x27;</span> &lt;|&gt; char <span class="hljs-string">&#x27;<span class="hljs-char escape_">\t</span>&#x27;</span>)</pre></div></div>
             
         </li>
         
@@ -560,19 +563,14 @@ for characters defined in the JSON spec, and Unicode characters with <code>\u</c
               <div class="sswrap ">
                 <a class="ss" href="#section-25">&#x00a7;</a>
               </div>
-              <p>The parser for JSON objects, containing  zero or more key-value pairs separated by colon, where
-keys are JSON strings, and values are any JSON types.</p>
+              <p>The parser for JSON arrays, containing zero or more items of any JSON types separated by commas.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-title">jObject</span> :: <span class="hljs-type">Parser</span> <span class="hljs-type">String</span> <span class="hljs-type">JValue</span>
-<span class="hljs-title">jObject</span> = <span class="hljs-type">JObject</span> &lt;$&gt;
-  (char <span class="hljs-string">&#x27;{&#x27;</span> *&gt; pair `separatedBy` char <span class="hljs-string">&#x27;,&#x27;</span> `surroundedBy` spaces &lt;* char <span class="hljs-string">&#x27;}&#x27;</span>)
-  <span class="hljs-keyword">where</span>
-    pair = (\ ~(<span class="hljs-type">JString</span> s) j -&gt; (s, j))
-      &lt;$&gt; (jString `surroundedBy` spaces)
-      &lt;*  char <span class="hljs-string">&#x27;:&#x27;</span>
-      &lt;*&gt; jValue</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-title">jArray</span> :: <span class="hljs-type">Parser</span> <span class="hljs-type">String</span> <span class="hljs-type">JValue</span>
+<span class="hljs-title">jArray</span> = fmap <span class="hljs-type">JArray</span>
+  . between (char <span class="hljs-string">&#x27;[&#x27;</span>) (char <span class="hljs-string">&#x27;]&#x27;</span>)
+  $ jValue `separatedBy` char <span class="hljs-string">&#x27;,&#x27;</span> `surroundedBy` spaces</pre></div></div>
             
         </li>
         
@@ -583,19 +581,21 @@ keys are JSON strings, and values are any JSON types.</p>
               <div class="sswrap ">
                 <a class="ss" href="#section-26">&#x00a7;</a>
               </div>
-              <p>The parser for any JSON value, created by combining all the previous JSON parsers.</p>
+              <p>The parser for JSON objects, containing  zero or more key-value pairs separated by colon, where
+keys are JSON strings, and values are any JSON types.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-title">jValue</span> :: <span class="hljs-type">Parser</span> <span class="hljs-type">String</span> <span class="hljs-type">JValue</span>
-<span class="hljs-title">jValue</span> = jValue&#x27; `surroundedBy` spaces
+            <div class="content"><div class='highlight'><pre><span class="hljs-title">jObject</span> :: <span class="hljs-type">Parser</span> <span class="hljs-type">String</span> <span class="hljs-type">JValue</span>
+<span class="hljs-title">jObject</span> = fmap <span class="hljs-type">JObject</span>
+  . between (char <span class="hljs-string">&#x27;{&#x27;</span>) ( char <span class="hljs-string">&#x27;}&#x27;</span>)
+  $ pair `separatedBy` char <span class="hljs-string">&#x27;,&#x27;</span> `surroundedBy` spaces
   <span class="hljs-keyword">where</span>
-    jValue&#x27; =   jNull
-            &lt;|&gt; jBool
-            &lt;|&gt; jString
-            &lt;|&gt; jNumber
-            &lt;|&gt; jArray
-            &lt;|&gt; jObject</pre></div></div>
+    pair =
+      (\ ~(<span class="hljs-type">JString</span> s) j -&gt; (s, j))
+        &lt;$&gt; (jString `surroundedBy` spaces)
+        &lt;* char <span class="hljs-string">&#x27;:&#x27;</span>
+        &lt;*&gt; jValue</pre></div></div>
             
         </li>
         
@@ -606,14 +606,20 @@ keys are JSON strings, and values are any JSON types.</p>
               <div class="sswrap ">
                 <a class="ss" href="#section-27">&#x00a7;</a>
               </div>
-              <p><code>parseJSON</code> parses its input string as a JSON value, or fails on parsing errors.</p>
+              <p>The parser for any JSON value, created by combining all the previous JSON parsers.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-title">parseJSON</span> :: <span class="hljs-type">String</span> -&gt; <span class="hljs-type">Maybe</span> <span class="hljs-type">JValue</span>
-<span class="hljs-title">parseJSON</span> s = <span class="hljs-keyword">case</span> runParser jValue s <span class="hljs-keyword">of</span>
-  <span class="hljs-type">Just</span> (<span class="hljs-string">&quot;&quot;</span>, j) -&gt; <span class="hljs-type">Just</span> j
-  _            -&gt; <span class="hljs-type">Nothing</span></pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-title">jValue</span> :: <span class="hljs-type">Parser</span> <span class="hljs-type">String</span> <span class="hljs-type">JValue</span>
+<span class="hljs-title">jValue</span> = jValue&#x27; `surroundedBy` spaces
+  <span class="hljs-keyword">where</span>
+    jValue&#x27; =
+      jNull
+        &lt;|&gt; jBool
+        &lt;|&gt; jString
+        &lt;|&gt; jNumber
+        &lt;|&gt; jArray
+        &lt;|&gt; jObject</pre></div></div>
             
         </li>
         
@@ -624,15 +630,34 @@ keys are JSON strings, and values are any JSON types.</p>
               <div class="sswrap ">
                 <a class="ss" href="#section-28">&#x00a7;</a>
               </div>
+              <p><code>parseJSON</code> parses its input string as a JSON value, or fails on parsing errors.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-title">parseJSON</span> :: <span class="hljs-type">String</span> -&gt; <span class="hljs-type">Maybe</span> <span class="hljs-type">JValue</span>
+<span class="hljs-title">parseJSON</span> s = <span class="hljs-keyword">case</span> runParser jValue s <span class="hljs-keyword">of</span>
+  <span class="hljs-type">Just</span> (<span class="hljs-string">&quot;&quot;</span>, j) -&gt; <span class="hljs-type">Just</span> j
+  _ -&gt; <span class="hljs-type">Nothing</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-29">
+            <div class="annotation">
+              
+              <div class="sswrap ">
+                <a class="ss" href="#section-29">&#x00a7;</a>
+              </div>
               <p><code>main</code> function reads text from standard input, and parses it as a JSON value.
 Prints a message indicating whether parsing succeeded or failed.</p>
 
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-title">main</span> :: <span class="hljs-type">IO</span> ()
-<span class="hljs-title">main</span> = getContents &gt;&gt;= \input -&gt; <span class="hljs-keyword">case</span> parseJSON input <span class="hljs-keyword">of</span>
-  <span class="hljs-type">Just</span> _ -&gt; putStrLn <span class="hljs-string">&quot;Parse okay&quot;</span>
-  <span class="hljs-type">Nothing</span> -&gt; putStrLn <span class="hljs-string">&quot;Parse failed&quot;</span> &gt;&gt; exitFailure</pre></div></div>
+<span class="hljs-title">main</span> =
+  getContents &gt;&gt;= \input -&gt; <span class="hljs-keyword">case</span> parseJSON input <span class="hljs-keyword">of</span>
+    <span class="hljs-type">Just</span> _ -&gt; putStrLn <span class="hljs-string">&quot;Parse okay&quot;</span>
+    <span class="hljs-type">Nothing</span> -&gt; putStrLn <span class="hljs-string">&quot;Parse failed&quot;</span> &gt;&gt; exitFailure</pre></div></div>
             
         </li>
         
