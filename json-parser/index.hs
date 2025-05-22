@@ -5,7 +5,7 @@
 -- **Copyright:** (c) 2025 [Abhinav Sarkar](https://abhinavsarkar.net), Google
 --
 -- This is a [JSON](https://en.wikipedia.org/wiki/JSON) parser written from scratch in [Haskell](https://www.haskell.org/)
--- in 183 lines. It complies with the JSON language specification set out in [IETF RFC 8259](https://tools.ietf.org/html/rfc8259),
+-- in under 200 lines. It complies with the JSON language specification set out in [IETF RFC 8259](https://tools.ietf.org/html/rfc8259),
 -- and passes the comprehensive [JSON test suite](https://github.com/nst/JSONTestSuite).
 --
 -- It is a recursive-descent parser, written in [Parser combinator](https://en.wikipedia.org/wiki/Parser_combinator)
