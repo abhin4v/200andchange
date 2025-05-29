@@ -9,6 +9,7 @@ There's something magical about demonstrating a powerful concept with ~250 lines
 * [Relational DB](./relational-db/)
 * [Precedence climbing parser](./precedence-climbing/)
 * [JIT](./just-in-time/)
+* [Bit-sliced signatures](./bit-sliced-signatures/)
 * [JSON parser](./json-parser/)
 
 ## Contributing

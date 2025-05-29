@@ -20,6 +20,11 @@
             <div id="jump_page">
               
                 
+                <a class="source" href="../bit-sliced-signatures/index.html">
+                  ./bit-sliced-signatures/index.c
+                </a>
+              
+                
                 <a class="source" href="../json-parser/index.html">
                   ./json-parser/index.hs
                 </a>
@@ -159,7 +164,7 @@ hence vary at runtime, so we keep relocations in the <code>rels</code> array for
             </div>
             
             <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">dot</span>(<span class="hljs-params">self</span>) -&gt; <span class="hljs-built_in">int</span>:
-        <span class="hljs-keyword">return</span> <span class="hljs-built_in">len</span>(<span class="hljs-variable language_">self</span>.ops)</pre></div></div>
+        <span class="hljs-keyword">return</span> <span class="hljs-built_in">len</span>(self.ops)</pre></div></div>
             
         </li>
         
@@ -176,7 +181,7 @@ in lieu of a more powerful assembler</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">db</span>(<span class="hljs-params">self, v: <span class="hljs-type">List</span>[<span class="hljs-built_in">int</span>]</span>):
-        <span class="hljs-variable language_">self</span>.ops.extend(v)</pre></div></div>
+        self.ops.extend(v)</pre></div></div>
             
         </li>
         
@@ -193,7 +198,7 @@ in lieu of a more powerful assembler</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">dd</span>(<span class="hljs-params">self, v: <span class="hljs-built_in">int</span></span>):
-        <span class="hljs-variable language_">self</span>.db([(v&gt;&gt;<span class="hljs-number">8</span>*i)&amp;<span class="hljs-number">0xff</span> <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">4</span>)])</pre></div></div>
+        self.db([(v&gt;&gt;<span class="hljs-number">8</span>*i)&amp;<span class="hljs-number">0xff</span> <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">4</span>)])</pre></div></div>
             
         </li>
         
@@ -210,7 +215,7 @@ in lieu of a more powerful assembler</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">dq</span>(<span class="hljs-params">self, v: <span class="hljs-built_in">int</span></span>):
-        <span class="hljs-variable language_">self</span>.db([(v&gt;&gt;<span class="hljs-number">8</span>*i)&amp;<span class="hljs-number">0xff</span> <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">8</span>)])</pre></div></div>
+        self.db([(v&gt;&gt;<span class="hljs-number">8</span>*i)&amp;<span class="hljs-number">0xff</span> <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">8</span>)])</pre></div></div>
             
         </li>
         
@@ -227,8 +232,8 @@ opcode data which must be fixed up at load time</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">reloc</span>(<span class="hljs-params">self, dst: <span class="hljs-built_in">int</span></span>):
-        <span class="hljs-variable language_">self</span>.rels.append((<span class="hljs-variable language_">self</span>.dot(), dst))
-        <span class="hljs-variable language_">self</span>.dd(<span class="hljs-number">0</span>)</pre></div></div>
+        self.rels.append((self.dot(), dst))
+        self.dd(<span class="hljs-number">0</span>)</pre></div></div>
             
         </li>
         
@@ -622,9 +627,9 @@ The address of our executable page is <code>adr</code> and it extends <code>len<
             
             <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">if</span> name != <span class="hljs-string">&#x27;posix&#x27;</span> <span class="hljs-keyword">or</span> maxsize != <span class="hljs-number">2</span>**<span class="hljs-number">63</span>-<span class="hljs-number">1</span> <span class="hljs-keyword">or</span> (<span class="hljs-keyword">not</span>
            <span class="hljs-built_in">any</span>(<span class="hljs-string">&quot;86&quot;</span> <span class="hljs-keyword">in</span> f <span class="hljs-keyword">for</span> f <span class="hljs-keyword">in</span> [processor(),machine()])):
-            <span class="hljs-variable language_">self</span>.<span class="hljs-built_in">len</span>   = <span class="hljs-number">0</span>
-            <span class="hljs-variable language_">self</span>.adr   = <span class="hljs-number">0</span>
-            <span class="hljs-variable language_">self</span>.valid = <span class="hljs-literal">False</span>
+            self.<span class="hljs-built_in">len</span>   = <span class="hljs-number">0</span>
+            self.adr   = <span class="hljs-number">0</span>
+            self.valid = <span class="hljs-literal">False</span>
         <span class="hljs-keyword">else</span>:</pre></div></div>
             
         </li>
@@ -661,9 +666,9 @@ The address of our executable page is <code>adr</code> and it extends <code>len<
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>            <span class="hljs-variable language_">self</span>.<span class="hljs-built_in">len</span>   = pythonapi.getpagesize()
-            <span class="hljs-variable language_">self</span>.adr   = pythonapi.mmap(<span class="hljs-number">0</span>, <span class="hljs-variable language_">self</span>.<span class="hljs-built_in">len</span>, <span class="hljs-number">7</span>, <span class="hljs-number">0x1022</span>, -<span class="hljs-number">1</span>, <span class="hljs-number">0</span>)
-            <span class="hljs-variable language_">self</span>.valid = <span class="hljs-literal">True</span></pre></div></div>
+            <div class="content"><div class='highlight'><pre>            self.<span class="hljs-built_in">len</span>   = pythonapi.getpagesize()
+            self.adr   = pythonapi.mmap(<span class="hljs-number">0</span>, self.<span class="hljs-built_in">len</span>, <span class="hljs-number">7</span>, <span class="hljs-number">0x1022</span>, -<span class="hljs-number">1</span>, <span class="hljs-number">0</span>)
+            self.valid = <span class="hljs-literal">True</span></pre></div></div>
             
         </li>
         
@@ -694,7 +699,7 @@ offsets between our calls and their referents</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>        adr = <span class="hljs-variable language_">self</span>.adr+off
+            <div class="content"><div class='highlight'><pre>        adr = self.adr+off
         rel = dst - (adr+<span class="hljs-number">4</span>)
         buf = cast(adr, POINTER(c_char*<span class="hljs-number">4</span>)).contents
         buf[:] = [(rel&gt;&gt;<span class="hljs-number">8</span>*i)&amp;<span class="hljs-number">0xff</span> <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">4</span>)]</pre></div></div>
@@ -714,9 +719,9 @@ returning a function pointer to the start of the assembly.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">load</span>(<span class="hljs-params">self, a:Asm</span>) -&gt; Thunk:
-        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> <span class="hljs-variable language_">self</span>.valid:
+        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> self.valid:
             <span class="hljs-keyword">raise</span> JitError(<span class="hljs-string">&quot;couldn&#x27;t confirm posix x86-64&quot;</span>)
-        <span class="hljs-keyword">if</span> a.dot() &gt; <span class="hljs-variable language_">self</span>.<span class="hljs-built_in">len</span>:
+        <span class="hljs-keyword">if</span> a.dot() &gt; self.<span class="hljs-built_in">len</span>:
             <span class="hljs-keyword">raise</span> JitError(<span class="hljs-string">&quot;too complex&quot;</span>)</pre></div></div>
             
         </li>
@@ -732,7 +737,7 @@ returning a function pointer to the start of the assembly.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>        pythonapi.memset(<span class="hljs-variable language_">self</span>.adr, <span class="hljs-number">0xcc</span>, <span class="hljs-variable language_">self</span>.<span class="hljs-built_in">len</span>)</pre></div></div>
+            <div class="content"><div class='highlight'><pre>        pythonapi.memset(self.adr, <span class="hljs-number">0xcc</span>, self.<span class="hljs-built_in">len</span>)</pre></div></div>
             
         </li>
         
@@ -747,7 +752,7 @@ returning a function pointer to the start of the assembly.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>        pythonapi.memcpy(<span class="hljs-variable language_">self</span>.adr, <span class="hljs-built_in">bytes</span>(a.ops), a.dot())</pre></div></div>
+            <div class="content"><div class='highlight'><pre>        pythonapi.memcpy(self.adr, <span class="hljs-built_in">bytes</span>(a.ops), a.dot())</pre></div></div>
             
         </li>
         
@@ -763,8 +768,8 @@ returning a function pointer to the start of the assembly.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">for</span> off,dst <span class="hljs-keyword">in</span> a.rels:
-            <span class="hljs-variable language_">self</span>.fixup(off,dst)
-        <span class="hljs-keyword">return</span> Thunk(<span class="hljs-variable language_">self</span>.adr)</pre></div></div>
+            self.fixup(off,dst)
+        <span class="hljs-keyword">return</span> Thunk(self.adr)</pre></div></div>
             
         </li>
         
@@ -780,7 +785,7 @@ returning a function pointer to the start of the assembly.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">eval</span>(<span class="hljs-params">self, expr</span>) -&gt; <span class="hljs-built_in">int</span>:
-        thunk = <span class="hljs-variable language_">self</span>.load(codegen(Asm(), expr))
+        thunk = self.load(codegen(Asm(), expr))
         <span class="hljs-keyword">return</span> thunk()</pre></div></div>
             
         </li>
@@ -812,7 +817,7 @@ returning a function pointer to the start of the assembly.</p>
 
 <span class="hljs-keyword">class</span> <span class="hljs-title class_">SmokeTests</span>(unittest.TestCase):
     <span class="hljs-keyword">def</span> <span class="hljs-title function_">setUp</span>(<span class="hljs-params">self</span>):
-        <span class="hljs-variable language_">self</span>.j = JitPage()
+        self.j = JitPage()
 
     <span class="hljs-keyword">def</span> <span class="hljs-title function_">test_expressions</span>(<span class="hljs-params">self</span>):
         tests = [
@@ -830,18 +835,18 @@ returning a function pointer to the start of the assembly.</p>
         ([<span class="hljs-string">&#x27;add&#x27;</span>,<span class="hljs-number">1</span>,[<span class="hljs-string">&#x27;mul&#x27;</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>]],<span class="hljs-number">7</span>),
         ]
         <span class="hljs-keyword">for</span> xpr,res <span class="hljs-keyword">in</span> tests:
-            <span class="hljs-keyword">with</span> <span class="hljs-variable language_">self</span>.subTest(xpr=xpr,res=res):
-                <span class="hljs-variable language_">self</span>.assertEqual(<span class="hljs-variable language_">self</span>.j.<span class="hljs-built_in">eval</span>(xpr),res)
+            <span class="hljs-keyword">with</span> self.subTest(xpr=xpr,res=res):
+                self.assertEqual(self.j.<span class="hljs-built_in">eval</span>(xpr),res)
 
     <span class="hljs-keyword">def</span> <span class="hljs-title function_">test_string_literal</span>(<span class="hljs-params">self</span>):
-        <span class="hljs-keyword">with</span> <span class="hljs-variable language_">self</span>.assertRaisesRegex(JitError, <span class="hljs-string">&quot;unimplemented literal&quot;</span>):
-            <span class="hljs-variable language_">self</span>.j.<span class="hljs-built_in">eval</span>([<span class="hljs-string">&#x27;*&#x27;</span>,<span class="hljs-number">2</span>,<span class="hljs-string">&#x27;dozen&#x27;</span>])
+        <span class="hljs-keyword">with</span> self.assertRaisesRegex(JitError, <span class="hljs-string">&quot;unimplemented literal&quot;</span>):
+            self.j.<span class="hljs-built_in">eval</span>([<span class="hljs-string">&#x27;*&#x27;</span>,<span class="hljs-number">2</span>,<span class="hljs-string">&#x27;dozen&#x27;</span>])
 
     <span class="hljs-keyword">def</span> <span class="hljs-title function_">test_too_complex</span>(<span class="hljs-params">self</span>):
         <span class="hljs-keyword">def</span> <span class="hljs-title function_">sumtree</span>(<span class="hljs-params">d</span>):
             <span class="hljs-keyword">return</span> <span class="hljs-number">1</span> <span class="hljs-keyword">if</span> d==<span class="hljs-number">0</span> <span class="hljs-keyword">else</span> [<span class="hljs-string">&#x27;+&#x27;</span>,sumtree(d-<span class="hljs-number">1</span>),sumtree(d-<span class="hljs-number">1</span>)]
-        <span class="hljs-keyword">with</span> <span class="hljs-variable language_">self</span>.assertRaisesRegex(JitError, <span class="hljs-string">&quot;too complex&quot;</span>):
-            <span class="hljs-variable language_">self</span>.j.<span class="hljs-built_in">eval</span>(sumtree(<span class="hljs-number">9</span>))
+        <span class="hljs-keyword">with</span> self.assertRaisesRegex(JitError, <span class="hljs-string">&quot;too complex&quot;</span>):
+            self.j.<span class="hljs-built_in">eval</span>(sumtree(<span class="hljs-number">9</span>))
 
 <span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:
     unittest.main()</pre></div></div>

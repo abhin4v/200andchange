@@ -9,7 +9,7 @@
     "highlight.js": "^11.8.0"
   },
   "scripts": {
-    "docco": "find . \\( -name '*.js' -o -name '*.py' -o -name '*.hs' \\) ! -path './node_modules/*' ! -path './scripts/*' | xargs docco",
+    "docco": "find . \\( -name '*.js' -o -name '*.py' -o -name '*.c' -o -name '*.hs' \\) ! -path './node_modules/*' ! -path './scripts/*' | xargs docco",
     "gen-site": "npm run docco && node _scripts/generateIndex.mjs > docs/index.html"
   }
 }
